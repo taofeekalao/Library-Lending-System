@@ -13,10 +13,12 @@ import java.util.Date;
  * @param checkOutDate          The checkout date of the item.
  * @param dueDate               The checkout date of the item.
  * @param returnedDate          The return date of the item.
+ * @param returnStatus          The return status of the item.
  * @param bookCheckedOut        The book item that is checked out.
  * @param memberCheckingOutBook The member checking out the book item.
  */
 public record CheckedOutItem(@Id Long checkedOutBookItemId, DateTimeFormat checkOutDate, Date dueDate,
-                             Date returnedDate, Book bookCheckedOut, Member memberCheckingOutBook) {
+                             Date returnedDate, boolean returnStatus, Book bookCheckedOut,
+                             Member memberCheckingOutBook) {
 
 }

@@ -9,7 +9,8 @@ import org.springframework.data.annotation.Id;
  * @param isbn     This is the ISBN of the book item.
  * @param title    This is the title of the book item.
  * @param author   This is the author of the book item.
- * @param quantity This is the quantity of the book item in the library.
+ * @param quantityInLibrary This is the quantity of the book item in the library.
+ * @param quantityCheckedOut This is the quantity of the book item in the library.
  */
 public record Book(@Id Long bookId, String isbn, String title, String author, int quantityInLibrary,
                    int quantityCheckedOut) {

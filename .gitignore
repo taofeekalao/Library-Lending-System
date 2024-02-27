@@ -5,3 +5,7 @@
 target/test-classes/cs5031/group/one/thelibrary/TheLibraryApplicationTests.class
 target/classes/cs5031/group/one/thelibrary/TheLibraryApplication.class
 /target/*
+.idea/dataSources.xml
+.idea/dataSources.xml
+.idea/sqldialects.xml
+*.xml
