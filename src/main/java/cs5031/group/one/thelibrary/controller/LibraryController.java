@@ -11,10 +11,11 @@ public class LibraryController {
 
     /**
      * This is a default/basic home controller of the application.
+     *
      * @return Return a string "Welcome to the library!".
      */
     @GetMapping("/")
-    public String home () {
+    public String home() {
         return "Welcome to the library!";
     }
 }
