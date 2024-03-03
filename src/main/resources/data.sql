@@ -1,8 +1,8 @@
-INSERT INTO member (member_name, address, email) VALUES ('jonathan martin', 'Fife Park, KY169LY', 'user.one@st-andrews.ac.uk');
-INSERT INTO member (member_name, address, email) VALUES ('adesola jacobs', 'the grange, KY169LY', 'user.two@st-andrews.ac.uk');
-INSERT INTO member (member_name, address, email) VALUES ('jin tao', 'Gregory Place, KY169LY', 'user.three@st-andrews.ac.uk');
-INSERT INTO member (member_name, address, email) VALUES ('abd hakeem', 'Powell, KY169LY', 'user.four@st-andrews.ac.uk');
-INSERT INTO member (member_name, address, email) VALUES ('amir khan', 'David Russell Apartment, KY169LY', 'user.five@st-andrews.ac.uk');
+INSERT INTO member (member_name, address, email_address) VALUES ('jonathan martin', 'Fife Park, KY169LY', 'user.one@st-andrews.ac.uk');
+INSERT INTO member (member_name, address, email_address) VALUES ('adesola jacobs', 'the grange, KY169LY', 'user.two@st-andrews.ac.uk');
+INSERT INTO member (member_name, address, email_address) VALUES ('jin tao', 'Gregory Place, KY169LY', 'user.three@st-andrews.ac.uk');
+INSERT INTO member (member_name, address, email_address) VALUES ('abd hakeem', 'Powell, KY169LY', 'user.four@st-andrews.ac.uk');
+INSERT INTO member (member_name, address, email_address) VALUES ('amir khan', 'David Russell Apartment, KY169LY', 'user.five@st-andrews.ac.uk');
 
 INSERT INTO book (isbn, title, author, quantity_in_library, quantity_checked_out) VALUES ('9780743273565','The Great Gatsby', 'F. Scott Fitzgerald', 9, 2);
 INSERT INTO book (isbn, title, author, quantity_in_library, quantity_checked_out) VALUES ('9780061120084','To Kill a Mockingbird', 'Harper Lee', 9, 6);

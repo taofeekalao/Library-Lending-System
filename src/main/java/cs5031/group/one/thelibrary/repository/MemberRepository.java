@@ -6,5 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberRepository extends CrudRepository<Member, Long> {
-
+    Member findMemberByEmailAddress(String emailAddress);
+    Member findMemberByMemberId(Long id);
+    Member deleteMemberByMemberId(Long id);
+    Member deleteMemberByEmailAddress(String emailAddress);
+    boolean existsMemberByMemberId(Long id);
+    boolean existsMemberByEmailAddress(String emailAddress);
 }
