@@ -1,10 +1,14 @@
 package cs5031.group.one.thelibrary.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
 import java.util.Date;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 /**
  * This is a record class representing the checked out item.
@@ -17,8 +21,8 @@ import java.util.Date;
  * @param bookCheckedOut        The book item that is checked out.
  * @param memberCheckingOutBook The member checking out the book item.
  */
-public record CheckedOutItem(@Id Long checkedOutBookItemId, DateTimeFormat checkOutDate, Date dueDate,
-                             Date returnedDate, boolean returnStatus, Book bookCheckedOut,
-                             Member memberCheckingOutBook) {
 
+public record CheckedOutItem(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long checkedOutBookItemId,
+        Long member, String book, LocalDate checkoutDate,
+        Date dueDate, boolean returnStatus, Date returnDate) {
 }
