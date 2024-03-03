@@ -12,10 +12,10 @@ DROP TABLE IF EXISTS library;
  */
 CREATE TABLE member
 (
-    member_id   INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    member_name VARCHAR(255)                   NOT NULL,
-    address     VARCHAR(255),
-    email       VARCHAR(255)                   NOT NULL
+    member_id     LONG PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    member_name   VARCHAR(255)                   NOT NULL,
+    address       VARCHAR(255),
+    email_address VARCHAR(255) UNIQUE            NOT NULL
 );
 
 /**
@@ -24,7 +24,7 @@ CREATE TABLE member
 CREATE TABLE book
 (
     book_id              INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    isbn                 VARCHAR(20)                    NOT NULL,
+    isbn                 VARCHAR(20) UNIQUE             NOT NULL,
     title                VARCHAR(255)                   NOT NULL,
     author               VARCHAR(100)                   NOT NULL,
     quantity_in_library  INT                            NOT NULL,
