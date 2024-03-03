@@ -32,9 +32,8 @@ public class LibraryController {
     MemberService memberService;
 
     @Autowired
-    public LibraryController(LibraryModel model, BookDBService bookService,
-            CheckedOutItemService checkedOutItemService, MemberService memberService) {
-        this.libraryModel = model;
+    public LibraryController(LibraryModel libraryModel, BookDBService bookService, CheckedOutItemService checkedOutItemService, MemberService memberService) {
+        this.libraryModel = libraryModel;
         this.bookService = bookService;
         this.checkedOutItemService = checkedOutItemService;
         this.memberService = memberService;

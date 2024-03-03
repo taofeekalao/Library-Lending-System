@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.List;
+
+import cs5031.group.one.thelibrary.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,12 +33,14 @@ class LibraryControllerTests {
     private BookRepository bookRepository;
     @Autowired
     private CheckedOutItemService checkedOutItemService;
+    @Autowired
+    private MemberService memberService;
 
     @BeforeEach
     public void setUp() {
         libraryModel = new LibraryModel(bookRepository, checkedOutItemService);
         bookService = new BookDBService(bookRepository);
-        libraryController = new LibraryController(libraryModel, bookService, checkedOutItemService);
+        libraryController = new LibraryController(libraryModel, bookService, checkedOutItemService, memberService);
     }
 
     @Test
