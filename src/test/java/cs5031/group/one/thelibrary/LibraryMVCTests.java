@@ -18,6 +18,8 @@ public class LibraryMVCTests {
     @Autowired
     private MockMvc mockMvc;
 
+    // A mock end-end test for the REST api call /borrow (a book)
+    // this is to allow the client implementation to be done in paralell
     @SuppressWarnings("null")
     @Test
     public void testBorrowEndpoint() throws Exception {
@@ -30,6 +32,8 @@ public class LibraryMVCTests {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    // A mock end-end test for the REST api call /return (a book)
+    // this is to allow the client implementation to be done in paralell
     @SuppressWarnings("null")
     @Test
     public void testReturnEndpoint() throws Exception {

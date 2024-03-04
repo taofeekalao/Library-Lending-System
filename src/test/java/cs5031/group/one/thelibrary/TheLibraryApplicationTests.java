@@ -23,6 +23,7 @@ class TheLibraryApplicationTests {
     void contextLoads() {
     }
 
+    // Test the model logic for borrowing a book with success
     @Test
     public void testBorrowBookSuccess() {
         Long memberId = 00001L;
@@ -31,6 +32,7 @@ class TheLibraryApplicationTests {
         assertTrue(success);
     }
 
+    // Test the model logic for borrowing a book that should fail
     @Test
     public void testBorrowBookFailure() {
         Long memberId = 00001L;
@@ -39,6 +41,7 @@ class TheLibraryApplicationTests {
         assertFalse(success);
     }
 
+    // Test the model logic for returning a book
     @Test
     public void testReturnBookSuccess() {
         Long memberId = 00001L;
@@ -48,6 +51,7 @@ class TheLibraryApplicationTests {
         assertTrue(success);
     }
 
+    // Test the model logic for returning a book that should fail
     @Test
     public void testReturnBookFailure() {
         Long memberId = 00001L;
@@ -56,6 +60,8 @@ class TheLibraryApplicationTests {
         assertFalse(success);
     }
 
+    // Test the model logic for adding a borrowed book to the checked out history
+    // this should pass
     @Test
     public void testBorrowCheckedOutItemSuccess() {
         Long memberId = 00001L;
@@ -69,6 +75,8 @@ class TheLibraryApplicationTests {
         assertTrue(checkedOutItem.isPresent());
     }
 
+    // Test the model logic for adding a borrowed book to the checked out history
+    // this should fail
     @Test
     public void testBorrowCheckedOutItemFailure() {
         Long memberId = 00001L;
@@ -82,6 +90,8 @@ class TheLibraryApplicationTests {
         assertFalse(checkedOutItem.isPresent());
     }
 
+    // Test the model logic for returning book to the checked out history
+    // this should pass
     @Test
     public void testReturnCheckedOutItemSuccess() {
         Long memberId = 00001L;
@@ -95,6 +105,8 @@ class TheLibraryApplicationTests {
         assertTrue(checkedOutItem.isPresent());
     }
 
+    // Test the model logic for returning a borrowed book to the checked out history
+    // this should fail
     @Test
     public void testReturnCheckedOutItemFailure() {
         Long memberId = 00001L;

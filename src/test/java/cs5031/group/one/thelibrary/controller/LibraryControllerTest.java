@@ -17,129 +17,131 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LibraryControllerTest {
 
-    @Autowired
-    TestRestTemplate restTemplate;
+        @Autowired
+        TestRestTemplate restTemplate;
 
-    @BeforeEach
-    void setUp() {
+        @BeforeEach
+        void setUp() {
 
-    }
+        }
 
-    /**
-     * Test case to test the end-point for creating a new member.
-     */
-    @Test
-    @DirtiesContext
-    void shouldCreateANewMember() {
-        Member newMember = new Member(null, "Mathew Lewis", "University of St Andrews, Walter Bower House Eden Campus Main Street, Guard Bridge Fife, KY16 0US", "mathew.lewis@st-andrews.ac.uk");
-        ResponseEntity<Void> createResponse = restTemplate
-                .postForEntity("/library/member", newMember, Void.class);
+        /**
+         * Test case to test the end-point for creating a new member.
+         */
+        @Test
+        @DirtiesContext
+        void shouldCreateANewMember() {
+                Member newMember = new Member(null, "Mathew Lewis",
+                                "University of St Andrews, Walter Bower House Eden Campus Main Street, Guard Bridge Fife, KY16 0US",
+                                "mathew.lewis@st-andrews.ac.uk");
+                ResponseEntity<Void> createResponse = restTemplate
+                                .postForEntity("/library/member", newMember, Void.class);
 
-        assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+                assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        URI locationOfNewMember = createResponse.getHeaders().getLocation();
-        ResponseEntity<String> getResponse = restTemplate
-                .getForEntity(locationOfNewMember, String.class);
-        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+                URI locationOfNewMember = createResponse.getHeaders().getLocation();
+                ResponseEntity<String> getResponse = restTemplate
+                                .getForEntity(locationOfNewMember, String.class);
+                assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
-        Number id = documentContext.read("@.memberId");
-        String email = documentContext.read("@.emailAddress");
+                DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
+                Number id = documentContext.read("@.memberId");
+                String email = documentContext.read("@.emailAddress");
 
-        assertThat(id).isNotNull();
-        assertThat(email).isEqualTo("mathew.lewis@st-andrews.ac.uk");
-    }
+                assertThat(id).isNotNull();
+                assertThat(email).isEqualTo("mathew.lewis@st-andrews.ac.uk");
+        }
 
-    /**
-     * Test case to test the end-point for getting a new member.
-     */
-    @Test
-    @DirtiesContext
-    void shoutReturnAMemberWhenDataIsSaved () {
-        ResponseEntity<String> response = restTemplate
-                .getForEntity("/library/member/5", String.class);
+        /**
+         * Test case to test the end-point for getting a new member.
+         */
+        @Test
+        @DirtiesContext
+        void shoutReturnAMemberWhenDataIsSaved() {
+                ResponseEntity<String> response = restTemplate
+                                .getForEntity("/library/member/5", String.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        DocumentContext documentContext = JsonPath.parse(response.getBody());
-        Number memberId = documentContext.read("$.memberId");
-        assertThat(memberId).isEqualTo(5);
+                DocumentContext documentContext = JsonPath.parse(response.getBody());
+                Number memberId = documentContext.read("$.memberId");
+                assertThat(memberId).isEqualTo(5);
 
-        String email = documentContext.read("$.emailAddress");
-        assertThat(email).isEqualTo("user.five@st-andrews.ac.uk");
-    }
+                String email = documentContext.read("$.emailAddress");
+                assertThat(email).isEqualTo("user.five@st-andrews.ac.uk");
+        }
 
+        /**
+         * Test case to test the end-point for creating a new member.
+         */
+        @Test
+        @DirtiesContext
+        void shouldNotCreateAMemberThatAlreadyExist() {
+                Member newMember = new Member(null, "Mathew Lewis",
+                                "University of St Andrews, Walter Bower House Eden Campus Main Street, Guard Bridge Fife, KY16 0US",
+                                "mathew.lewis@st-andrews.ac.uk");
+                ResponseEntity<Void> createResponse = restTemplate
+                                .postForEntity("/library/member", newMember, Void.class);
 
+                assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-    /**
-     * Test case to test the end-point for creating a new member.
-     */
-    @Test
-    @DirtiesContext
-    void shouldNotCreateAMemberThatAlreadyExist() {
-        Member newMember = new Member(null, "Mathew Lewis", "University of St Andrews, Walter Bower House Eden Campus Main Street, Guard Bridge Fife, KY16 0US", "mathew.lewis@st-andrews.ac.uk");
-        ResponseEntity<Void> createResponse = restTemplate
-                .postForEntity("/library/member", newMember, Void.class);
+                ResponseEntity<Void> createDuplicateResponse = restTemplate
+                                .postForEntity("/library/member", newMember, Void.class);
 
-        assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+                assertThat(createDuplicateResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        }
 
+        @Test
+        @DirtiesContext
+        void shouldDeleteAnExistingMember() {
+                ResponseEntity<Void> response = restTemplate
+                                .exchange("/library/member/5", HttpMethod.DELETE, null, Void.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        }
 
-        ResponseEntity<Void> createDuplicateResponse = restTemplate
-                .postForEntity("/library/member", newMember, Void.class);
+        @Test
+        @DirtiesContext
+        void shouldNotDeleteAMemberThatDoesNotExist() {
+                ResponseEntity<Void> deleteResponse = restTemplate
+                                .exchange("/library/member/6", HttpMethod.DELETE, null, Void.class);
+                assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        }
 
-        assertThat(createDuplicateResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
+        @Test
+        @DirtiesContext
+        void shouldDeleteAnExistingMemberByEmailAddress() {
+                ResponseEntity<Void> response = restTemplate
+                                .exchange("/library/member/user.three@st-andrews.ac.uk", HttpMethod.DELETE, null,
+                                                Void.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        }
 
-    @Test
-    @DirtiesContext
-    void shouldDeleteAnExistingMember() {
-        ResponseEntity<Void> response = restTemplate
-                .exchange("/library/member/5", HttpMethod.DELETE, null, Void.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-    }
+        @Test
+        @DirtiesContext
+        void shouldReturnAnExistingMember() {
+                ResponseEntity<String> getResponse = restTemplate
+                                .getForEntity("/library/member/4", String.class);
+                assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        }
 
-    @Test
-    @DirtiesContext
-    void shouldNotDeleteAMemberThatDoesNotExist() {
-        ResponseEntity<Void> deleteResponse = restTemplate
-                .exchange("/library/member/6", HttpMethod.DELETE, null, Void.class);
-        assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-    }
+        @Test
+        @DirtiesContext
+        void shouldReturnAllLibraryMembersWhenListIsRequested() {
+                ResponseEntity<String> response = restTemplate
+                                .getForEntity("/library/member/", String.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
+                DocumentContext documentContext = JsonPath.parse(response.getBody());
+                int memberCount = documentContext.read("$.length()");
+                assertThat(memberCount).isEqualTo(5);
 
-    @Test
-    @DirtiesContext
-    void shouldDeleteAnExistingMemberByEmailAddress() {
-        ResponseEntity<Void> response = restTemplate
-                .exchange("/library/member/user.three@st-andrews.ac.uk", HttpMethod.DELETE, null, Void.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-    }
-
-    @Test
-    @DirtiesContext
-    void shouldReturnAnExistingMember() {
-        ResponseEntity<String> getResponse = restTemplate
-                .getForEntity("/library/member/4", String.class);
-        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
-
-    @Test
-    @DirtiesContext
-    void shouldReturnAllLibraryMembersWhenListIsRequested() {
-        ResponseEntity<String> response = restTemplate
-                .getForEntity("/library/member/", String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        DocumentContext documentContext = JsonPath.parse(response.getBody());
-        int memberCount = documentContext.read("$.length()");
-        assertThat(memberCount).isEqualTo(5);
-
-        JSONArray ids = documentContext.read("$..emailAddress");
-        assertThat(ids).containsExactlyInAnyOrder("user.one@st-andrews.ac.uk", "user.two@st-andrews.ac.uk", "user.three@st-andrews.ac.uk", "user.four@st-andrews.ac.uk", "user.five@st-andrews.ac.uk");
-    }
+                JSONArray ids = documentContext.read("$..emailAddress");
+                assertThat(ids).containsExactlyInAnyOrder("user.one@st-andrews.ac.uk", "user.two@st-andrews.ac.uk",
+                                "user.three@st-andrews.ac.uk", "user.four@st-andrews.ac.uk",
+                                "user.five@st-andrews.ac.uk");
+        }
 }

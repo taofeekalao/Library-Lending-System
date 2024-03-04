@@ -21,6 +21,16 @@ public class LibraryModel {
         this.checkedOutItemService = checkedOutItemService;
     }
 
+    /**
+     * The controller asks the model to perform the borrow book steps.
+     * 
+     * Update the book record and add an entry into the checkedoutitems history
+     * 
+     * @param isbn
+     * @param memberId
+     * @return boolean
+     * 
+     */
     public boolean borrowBook(String isbn, Long memberId) {
         boolean borrowed = false;
 
@@ -50,6 +60,16 @@ public class LibraryModel {
         return borrowed;
     }
 
+    /**
+     * 
+     * The controller asks the model to perform the return book steps.
+     * 
+     * Update the book record and update the entry into the checkedoutitems history
+     * 
+     * @param isbn
+     * @param memberId
+     * @return boolean
+     */
     public boolean returnBook(String isbn, Long memberId) {
         boolean returned = false;
 
