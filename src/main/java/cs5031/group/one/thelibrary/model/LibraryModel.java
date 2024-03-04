@@ -26,8 +26,8 @@ public class LibraryModel {
      * 
      * Update the book record and add an entry into the checkedoutitems history
      * 
-     * @param isbn
-     * @param memberId
+     * @param isbn     - isbn number
+     * @param memberId - member id
      * @return boolean
      * 
      */
@@ -66,8 +66,8 @@ public class LibraryModel {
      * 
      * Update the book record and update the entry into the checkedoutitems history
      * 
-     * @param isbn
-     * @param memberId
+     * @param isbn     - isbn number
+     * @param memberId - member id
      * @return boolean
      */
     public boolean returnBook(String isbn, Long memberId) {

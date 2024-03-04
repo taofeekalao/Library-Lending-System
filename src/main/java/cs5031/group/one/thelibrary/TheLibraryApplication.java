@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * This is the entry point to the SpringBoot application.
  */
 @SpringBootApplication
+/* */
 public class TheLibraryApplication {
-
     /**
      * This is the main method for the application.
      *

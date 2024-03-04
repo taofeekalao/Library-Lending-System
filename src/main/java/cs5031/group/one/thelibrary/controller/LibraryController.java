@@ -52,13 +52,14 @@ public class LibraryController {
     }
 
     /**
+     * 
      * REST api call to borrow book for member
      * Note: a member can only borrow one copy of any given book,
      * therefore, this is considered idempotent
      * 
-     * @param isbn     - the book isbn number
-     * @param memberId - the member id
-     * @return ResponseEntity<String> - http response to the client
+     * @param isbn      - the book isbn number
+     * @param member_Id - the member id
+     * @return ResponseEntity - http response to the client
      */
     @GetMapping("/borrowed")
     public ResponseEntity<String> borrowBook(
@@ -96,9 +97,11 @@ public class LibraryController {
 
     /**
      * 
-     * @param isbn     - the book isbn number
-     * @param memberId - the member id
-     * @return ResponseEntity<String> - http response to the client
+     * Return book for member
+     * 
+     * @param isbn      - the book isbn number
+     * @param member_Id - the member id
+     * @return ResponseEntity - http response to the client
      */
     @GetMapping("/returned")
     public ResponseEntity<String> returnBook(
@@ -134,9 +137,10 @@ public class LibraryController {
     }
 
     /**
+     * 
      * List of books in the library and their status
      * 
-     * @return ResponseEntity<List<Book>> http response - List of books back to
+     * @return ResponseEntity - List of books back to
      *         client
      */
     @GetMapping("/bookList")
@@ -159,7 +163,10 @@ public class LibraryController {
     }
 
     /**
-     * @return ResponseEntity<List<CheckedOutItem>> - http response - List of
+     * 
+     * List of checked out items in the library
+     *
+     * @return ResponseEntity - List of
      *         checkedout item history back to client
      */
     @GetMapping("/checkedOutList")
@@ -183,6 +190,7 @@ public class LibraryController {
     }
 
     /**
+     * 
      * This is the post method to add a new member to the list of members who
      * subscribed to the library service.
      *
@@ -212,6 +220,7 @@ public class LibraryController {
     }
 
     /**
+     * 
      * This is the get method to retrieve a member from the list of members who
      * subscribed to the library service.
      *
@@ -229,6 +238,7 @@ public class LibraryController {
     }
 
     /**
+     * 
      * This is the delete method that removes member from the library using either
      * member's id or member's email address.
      * 
@@ -260,6 +270,7 @@ public class LibraryController {
     }
 
     /**
+     * 
      * This is the method that gets all the members in the system and returns a list
      * of members.
      * 

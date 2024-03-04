@@ -53,6 +53,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsMemberByEmailAddress(emailAddress);
     }
 
+    @SuppressWarnings("null")
     @Override
     public Member addMemberToTheLibrary(Member member) {
         return memberRepository.save(member);
