@@ -31,14 +31,14 @@ public interface MemberService {
      * @param id This is the input parameter
      * @return The method returns a member object
      */
-    Member deleteMemberById(Long id);
+    void deleteMemberById(Long id);
 
     /**
      * This is the service interface method to delete member using member's email address.
      * @param emailAddress This is the input parameter
      * @return The method returns a member object
      */
-    Member deleteMemberByEmailAddress(String emailAddress);
+    void deleteMemberByEmailAddress(String emailAddress);
 
     /**
      * This is the service interface method to check existence of a member using member's email address.
@@ -70,8 +70,8 @@ public interface MemberService {
 
     /**
      * This is the service interface method to update details of member.
+     *
      * @param member This is the input parameter
-     * @return This returns a member object created.
      */
-    Member updateMemberDetail(Member member);
+    void updateMemberDetail(Member member);
 }

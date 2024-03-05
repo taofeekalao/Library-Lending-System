@@ -55,11 +55,10 @@ public class MemberServiceImpl implements MemberService {
      * @return The method returns a member object
      */
     @Override
-    public Member deleteMemberById(Long id) {
+    public void deleteMemberById(Long id) {
         if (existsMemberById(id)) {
-            return memberRepository.deleteMemberByMemberId(id);
+            memberRepository.deleteById(id);
         }
-        return null;
     }
 
     /**
@@ -69,11 +68,11 @@ public class MemberServiceImpl implements MemberService {
      * @return The method returns a member object
      */
     @Override
-    public Member deleteMemberByEmailAddress(String emailAddress) {
+    public void deleteMemberByEmailAddress(String emailAddress) {
         if (existsMemberByEmailAddress(emailAddress)) {
-            return memberRepository.deleteMemberByEmailAddress(emailAddress);
+            Member member = memberRepository.findMemberByEmailAddress(emailAddress);
+            memberRepository.deleteById(member.memberId());
         }
-        return null;
     }
 
 
@@ -131,10 +130,9 @@ public class MemberServiceImpl implements MemberService {
      * This is the service implementation method to update details of member.
      *
      * @param member This is the input parameter
-     * @return This returns a member object created.
      */
     @Override
-    public Member updateMemberDetail(Member member) {
-        return memberRepository.save(member);
+    public void updateMemberDetail(Member member) {
+        memberRepository.save(member);
     }
 }
