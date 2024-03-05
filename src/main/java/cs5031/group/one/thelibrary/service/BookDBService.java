@@ -55,4 +55,16 @@ public class BookDBService {
             bookRepository.save(userBook);
         }
     }
+
+    @Transactional
+    public Book addBook(Book newBook) {
+        // First, check if a book with the same ISBN already exists in the database
+        if (newBook != null && bookRepository.findByIsbn(newBook.isbn()) == null) {
+            // If the book does not exist, save the new book
+            return bookRepository.save(newBook);
+        } else {
+            // If the book already exists, or the newBook object is null, return null
+            return null;
+        }
+    }
 }

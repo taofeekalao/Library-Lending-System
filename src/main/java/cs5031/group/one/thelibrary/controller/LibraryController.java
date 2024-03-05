@@ -219,4 +219,23 @@ public class LibraryController {
         return ResponseEntity.ok(memberList);
     }
 
+    @PostMapping("/books")
+    public ResponseEntity<String> addBook(@RequestBody Book newBook) {
+        // Check if the book data is provided in the request
+        if (newBook == null) {
+            return ResponseEntity.badRequest().body("Invalid book data");
+        }
+
+        // Try to add the new book to the database
+        Book savedBook = bookService.addBook(newBook);
+        if (savedBook == null) {
+            // This means the book already exists or there was a problem with the data
+            return ResponseEntity.badRequest().body("Book already exists or could not be created");
+        }
+
+        // If the book was successfully added, return an OK response
+        return ResponseEntity.ok("Book added successfully with ID: " + savedBook.bookId());
+    }
+
+
 }
