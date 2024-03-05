@@ -24,6 +24,9 @@ public interface CheckedOutItemRepository extends CrudRepository<CheckedOutItem,
                         String book,
                         Long member);
 
+        // Method for the respositoy to create a query that will return the book for a member
+        List<CheckedOutItem> findByMemberAndReturnStatus(Long member, boolean returnStatus);
+
         // Method for the respositoy to create a query that will return the
         // checkedoutitem history
         @SuppressWarnings("null")
