@@ -8,4 +8,8 @@ target/classes/cs5031/group/one/thelibrary/TheLibraryApplication.class
 .idea/dataSources.xml
 .idea/dataSources.xml
 .idea/sqldialects.xml
+.idea/misc.xml
 *.xml
+
+.vscode/
+.idea/

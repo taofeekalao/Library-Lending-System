@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 /**
  * This is the controller of the application.
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class LibraryController {
     private final LibraryModel libraryModel;
@@ -283,4 +284,14 @@ public class LibraryController {
         return ResponseEntity.ok(memberList);
     }
 
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<List<CheckedOutItem>> getBorrowedBooks(@PathVariable Long memberId, @RequestParam boolean returned) {
+        List<CheckedOutItem> borrowedBooks = checkedOutItemService.getCheckedOutItemsByMember(memberId, returned);
+
+        if (borrowedBooks.isEmpty()) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.ok(borrowedBooks);
+    }
 }
