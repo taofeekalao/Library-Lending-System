@@ -18,7 +18,11 @@ public record Book(@Id Long bookId, String isbn, String title, String author, in
         int quantityCheckedOut) {
 
     /**
-     * @return int - quantity of book copies available to borrow
+     * 
+     * Quantity of book copies available to borrow
+     * 
+     * @return Quantity
+     * 
      */
     public int getQuantityIn() {
 
@@ -26,7 +30,9 @@ public record Book(@Id Long bookId, String isbn, String title, String author, in
     }
 
     /**
-     * @return int - quantity of book copies borrowed
+     * Quantity of book copies borrowed
+     * 
+     * @return Quantity
      */
     public int getQuantityOut() {
 
@@ -34,6 +40,10 @@ public record Book(@Id Long bookId, String isbn, String title, String author, in
     }
 
     /**
+     * New quantity
+     * 
+     * @param newIn  New quantity in
+     * @param newOut New quantity out
      * @return Book - with updated quantities
      */
     public Book withUpdatedQuantities(int newIn, int newOut) {

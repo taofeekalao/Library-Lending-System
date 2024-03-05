@@ -1,13 +1,12 @@
 package cs5031.group.one.thelibrary.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import cs5031.group.one.thelibrary.model.Book;
 import cs5031.group.one.thelibrary.model.CheckedOutItem;
 import cs5031.group.one.thelibrary.model.LibraryModel;
 import cs5031.group.one.thelibrary.service.BookDBService;
 import cs5031.group.one.thelibrary.service.CheckedOutItemService;
 import cs5031.group.one.thelibrary.model.Member;
+import cs5031.group.one.thelibrary.repository.CheckedOutItemRepository;
 import cs5031.group.one.thelibrary.service.MemberService;
 
 import java.net.URI;
@@ -17,26 +16,30 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * This is the controller of the application.
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class LibraryController {
     private final LibraryModel libraryModel;
     private final BookDBService bookService;
     private final CheckedOutItemService checkedOutItemService;
     private final MemberService memberService;
+    private final CheckedOutItemRepository checkedOutItemRepository;
 
     @Autowired
-    public LibraryController(LibraryModel libraryModel, BookDBService bookService, CheckedOutItemService checkedOutItemService, MemberService memberService) {
+    public LibraryController(LibraryModel libraryModel, BookDBService bookService,
+            CheckedOutItemService checkedOutItemService, MemberService memberService,
+            CheckedOutItemRepository checkedOutItemRepository) {
         this.libraryModel = libraryModel;
         this.bookService = bookService;
         this.checkedOutItemService = checkedOutItemService;
         this.memberService = memberService;
+        this.checkedOutItemRepository = checkedOutItemRepository;
     }
 
     /**
@@ -49,6 +52,16 @@ public class LibraryController {
         return "Welcome to the library!";
     }
 
+    /**
+     * 
+     * REST api call to borrow book for member
+     * Note: a member can only borrow one copy of any given book,
+     * therefore, this is considered idempotent
+     * 
+     * @param isbn      - the book isbn number
+     * @param member_Id - the member id
+     * @return ResponseEntity - http response to the client
+     */
     @GetMapping("/borrowed")
     public ResponseEntity<String> borrowBook(
             @RequestParam String isbn,
@@ -61,19 +74,36 @@ public class LibraryController {
                 return ResponseEntity.badRequest().body("Invalid input");
             }
 
-            boolean success = libraryModel.borrowBook(isbn, member_Id);
+            // Check if the book is already borrowed
+            CheckedOutItem checkedOutItem = checkedOutItemRepository
+                    .findByBookAndMemberAndReturnStatusIsFalse(isbn, member_Id)
+                    .orElse(null);
 
-            if (success) {
-                return ResponseEntity.ok("Book borrowed");
+            if (checkedOutItem != null) {
+                return ResponseEntity.badRequest().body("Book already borrowed by the member");
             } else {
-                return ResponseEntity.badRequest().body("Borrow failed");
-            }
+                // Book is not already borrowed so proceed with borrowing
+                boolean success = libraryModel.borrowBook(isbn, member_Id);
 
+                if (success) {
+                    return ResponseEntity.ok("Book borrowed");
+                } else {
+                    return ResponseEntity.badRequest().body("Borrow failed");
+                }
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
 
+    /**
+     * 
+     * Return book for member
+     * 
+     * @param isbn      - the book isbn number
+     * @param member_Id - the member id
+     * @return ResponseEntity - http response to the client
+     */
     @GetMapping("/returned")
     public ResponseEntity<String> returnBook(
             @RequestParam String isbn,
@@ -86,19 +116,34 @@ public class LibraryController {
                 return ResponseEntity.badRequest().body("Invalid input");
             }
 
-            boolean success = libraryModel.returnBook(isbn, member_Id);
+            // Check if the book is actually borrowed before attempting to return
+            CheckedOutItem checkedOutItem = checkedOutItemRepository
+                    .findByBookAndMemberAndReturnStatusIsFalse(isbn, member_Id)
+                    .orElse(null);
 
-            if (success) {
-                return ResponseEntity.ok("Book returned");
+            if (checkedOutItem == null) {
+                return ResponseEntity.badRequest().body("Book is not currently borrowed by the member");
             } else {
-                return ResponseEntity.badRequest().body("Return failed");
-            }
+                boolean success = libraryModel.returnBook(isbn, member_Id);
 
+                if (success) {
+                    return ResponseEntity.ok("Book returned");
+                } else {
+                    return ResponseEntity.badRequest().body("Return failed");
+                }
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
 
+    /**
+     * 
+     * List of books in the library and their status
+     * 
+     * @return ResponseEntity - List of books back to
+     *         client
+     */
     @GetMapping("/bookList")
     public ResponseEntity<List<Book>> getBookList() {
         // Get a list of all books
@@ -118,6 +163,13 @@ public class LibraryController {
         return ResponseEntity.ok(bookList);
     }
 
+    /**
+     * 
+     * List of checked out items in the library
+     *
+     * @return ResponseEntity - List of
+     *         checkedout item history back to client
+     */
     @GetMapping("/checkedOutList")
     public ResponseEntity<List<CheckedOutItem>> getCheckedOutList() {
         // Get a list of all checked-out items
@@ -138,16 +190,22 @@ public class LibraryController {
         return ResponseEntity.ok(checkedOutItemList);
     }
 
-/**
-     * This is the post method to add a new member to the list of members who subscribed to the library service.
+    /**
+     * 
+     * This is the post method to add a new member to the list of members who
+     * subscribed to the library service.
      *
-     * @param newMember            The member object with the detail of the member as object properties.
-     * @param uriComponentsBuilder The URI builder to add the location of the newly created resource to the returned data.
+     * @param newMember            The member object with the detail of the member
+     *                             as object properties.
+     * @param uriComponentsBuilder The URI builder to add the location of the newly
+     *                             created resource to the returned data.
      * @return The method returns a response entity object.
      */
     @PostMapping("/library/member")
-    private ResponseEntity<Void> createMember(@RequestBody Member newMember, UriComponentsBuilder uriComponentsBuilder) {
-        Member newLibraryMember = new Member(null, newMember.memberName(), newMember.address(), newMember.emailAddress());
+    private ResponseEntity<Void> createMember(@RequestBody Member newMember,
+            UriComponentsBuilder uriComponentsBuilder) {
+        Member newLibraryMember = new Member(null, newMember.memberName(), newMember.address(),
+                newMember.emailAddress());
         Optional<Member> existingMember = memberService.findMemberByEmailAddress((newMember.emailAddress()));
         if (existingMember.isPresent()) {
             return ResponseEntity.badRequest().build();
@@ -163,7 +221,9 @@ public class LibraryController {
     }
 
     /**
-     * This is the get method to retrieve a member from the list of members who subscribed to the library service.
+     * 
+     * This is the get method to retrieve a member from the list of members who
+     * subscribed to the library service.
      *
      * @param requestId This is the id of the member to be retrieved
      * @return The method returns a response entity object.
@@ -178,10 +238,13 @@ public class LibraryController {
         }
     }
 
-
     /**
-     * This is the delete method that removes member from the library using either member's id or member's email address.
-     * @param requestId The request parameter - either the member's id or the member's email address'
+     * 
+     * This is the delete method that removes member from the library using either
+     * member's id or member's email address.
+     * 
+     * @param requestId The request parameter - either the member's id or the
+     *                  member's email address'
      * @return The method returns a response entity object.
      */
     @DeleteMapping("/library/member/{requestId}")
@@ -207,9 +270,11 @@ public class LibraryController {
         return ResponseEntity.notFound().build();
     }
 
-
     /**
-     * This is the method that gets all the members in the system and returns a list of members.
+     * 
+     * This is the method that gets all the members in the system and returns a list
+     * of members.
+     * 
      * @return This returns a list of members.
      */
     @GetMapping("/library/member/")
@@ -243,5 +308,17 @@ public class LibraryController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<List<CheckedOutItem>> getBorrowedBooks(@PathVariable Long memberId, @RequestParam boolean returned) {
+        List<CheckedOutItem> borrowedBooks = checkedOutItemService.getCheckedOutItemsByMember(memberId, returned);
+
+        if (borrowedBooks.isEmpty()) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.ok(borrowedBooks);
     }
 }
