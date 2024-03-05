@@ -168,11 +168,11 @@ public class LibraryControllerTest {
         Member memberUpdate1 = new Member(null, null, "Johnson S4 Fife Park, KY16 0US", null);
         HttpEntity<Member> request = new HttpEntity<>(memberUpdate);
         ResponseEntity<Void> response = restTemplate
-                .exchange("library/member/2", HttpMethod.PUT, request, Void.class);
+                .exchange("/library/member/2", HttpMethod.PUT, request, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         ResponseEntity<String> getResponse = restTemplate
-                .getForEntity("library/member/2", String.class);
+                .getForEntity("/library/member/2", String.class);
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
         Number id = documentContext.read("@.memberId");
@@ -192,7 +192,7 @@ public class LibraryControllerTest {
         Member unknownMember = new Member(null, "Mathew Lewis",  null, null);
         HttpEntity<Member> request = new HttpEntity<>(unknownMember);
         ResponseEntity<Void> response = restTemplate
-                .exchange("library/member/99999", HttpMethod.PUT, request, Void.class);
+                .exchange("/library/member/99999", HttpMethod.PUT, request, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
@@ -205,11 +205,11 @@ public class LibraryControllerTest {
         Member memberWithEmailAddress = new Member(null, "Mathew Lewis",  null, "user.two@st-andrews.ac.uk");
         HttpEntity<Member> request = new HttpEntity<>(memberWithEmailAddress);
         ResponseEntity<Void> response = restTemplate
-                .exchange("library/member/2", HttpMethod.PUT, request, Void.class);
+                .exchange("/library/member/2", HttpMethod.PUT, request, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         ResponseEntity<String> getResponse = restTemplate
-                .getForEntity("library/member/2", String.class);
+                .getForEntity("/library/member/2", String.class);
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
         String email = documentContext.read("@.emailAddress");

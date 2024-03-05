@@ -67,4 +67,11 @@ public interface MemberService {
      * @return This returns a list of all member objects in the system.
      */
     List<Member> listAllMembers();
+
+    /**
+     * This is the service interface method to update details of member.
+     * @param member This is the input parameter
+     * @return This returns a member object created.
+     */
+    Member updateMemberDetail(Member member);
 }

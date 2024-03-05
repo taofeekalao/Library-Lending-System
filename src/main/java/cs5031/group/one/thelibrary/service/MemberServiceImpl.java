@@ -18,6 +18,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the constructor of the class.
+     *
      * @param memberRepository This is the repository object as a parameter.
      */
     public MemberServiceImpl(MemberRepository memberRepository) {
@@ -26,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the service interface method to find member using member's id.
+     *
      * @param id This is the input parameter
      * @return The method returns a member object
      */
@@ -48,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the service implementation method to delete member using member's id.
+     *
      * @param id This is the input parameter
      * @return The method returns a member object
      */
@@ -61,6 +64,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the service implementation method to delete member using member's email address.
+     *
      * @param emailAddress This is the input parameter
      * @return The method returns a member object
      */
@@ -75,6 +79,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the service implementation method to check existence of a member using member's email address.
+     *
      * @param id This is the input parameter
      * @return This returns a boolean true or false depending on member's existence in the system.
      */
@@ -86,6 +91,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the service implementation method to check existence of a member using member's email address.
+     *
      * @param emailAddress This is the input parameter
      * @return This returns a boolean true or false depending on member's existence in the system.
      */
@@ -96,6 +102,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * This is the service implementation method to add a new member to the library system.
+     *
      * @param member This is the input parameter
      * @return This returns a member object created.
      */
@@ -117,5 +124,16 @@ public class MemberServiceImpl implements MemberService {
             memberList.add(member);
         }
         return memberList;
+    }
+
+    /**
+     * This is the service implementation method to update details of member.
+     *
+     * @param member This is the input parameter
+     * @return This returns a member object created.
+     */
+    @Override
+    public Member updateMemberDetail(Member member) {
+        return memberRepository.save(member);
     }
 }

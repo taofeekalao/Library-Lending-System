@@ -29,7 +29,7 @@ public class LibraryController {
     private final LibraryModel libraryModel;
     private final BookDBService bookService;
     private final CheckedOutItemService checkedOutItemService;
-    MemberService memberService;
+    private final MemberService memberService;
 
     @Autowired
     public LibraryController(LibraryModel libraryModel, BookDBService bookService, CheckedOutItemService checkedOutItemService, MemberService memberService) {
@@ -219,4 +219,29 @@ public class LibraryController {
         return ResponseEntity.ok(memberList);
     }
 
+    /**
+     * This is the method that updates either the name or the address of a member,
+     * @param requestedId The is the id of the member to be updated.
+     * @param memberUpdate This is the request body of the member to be updated.
+     * @return Return a response entity object which could be success or failure depending on the outcome of the transaction.
+     */
+    @PutMapping("/library/member/{requestedId}")
+    private ResponseEntity<Void> updateMemberNameOrAddress(@PathVariable Long requestedId, @RequestBody Member memberUpdate) {
+        Optional<Member> member = memberService.findMemberById(requestedId);
+        if (member.isPresent()) {
+            String newMemberName = null;
+            if (memberUpdate.memberName() != null) {
+                newMemberName = memberUpdate.memberName();
+            }
+
+            String newMemberAddress = null;
+            if (memberUpdate.address() != null) {
+                newMemberAddress = memberUpdate.address();
+            }
+            Member updatedMember = new Member(member.get().memberId(), newMemberName,  newMemberAddress, member.get().emailAddress());
+            memberService.updateMemberDetail(updatedMember);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
