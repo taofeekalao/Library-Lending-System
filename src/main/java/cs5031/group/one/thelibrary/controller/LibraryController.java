@@ -22,7 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 /**
  * This is the controller of the application.
  */
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+// @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 @RestController
 public class LibraryController {
     private final LibraryModel libraryModel;
@@ -47,9 +47,9 @@ public class LibraryController {
      *
      * @return Return a string "Welcome to the library!".
      */
-    @GetMapping("/")
+    @GetMapping("/welcome")
     public String home() {
-        return "Welcome to the library!";
+        return "Welcome to the Library";
     }
 
     /**
@@ -311,13 +311,10 @@ public class LibraryController {
     }
 
 
-    @GetMapping("/member/{memberId}")
+    @GetMapping("/member/{memberId}/checkoutitems")
     public ResponseEntity<List<CheckedOutItem>> getBorrowedBooks(@PathVariable Long memberId, @RequestParam boolean returned) {
         List<CheckedOutItem> borrowedBooks = checkedOutItemService.getCheckedOutItemsByMember(memberId, returned);
 
-        if (borrowedBooks.isEmpty()) {
-            return ResponseEntity.ok().build();
-        }
 
         return ResponseEntity.ok(borrowedBooks);
     }
