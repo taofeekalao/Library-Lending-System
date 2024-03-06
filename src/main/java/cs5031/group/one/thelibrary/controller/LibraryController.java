@@ -280,9 +280,27 @@ public class LibraryController {
     @GetMapping("/library/member/")
     private ResponseEntity<List<Member>> findAll() {
         List<Member> memberList = memberService.listAllMembers();
-        System.out.println("Member List: " + memberList);
         return ResponseEntity.ok(memberList);
     }
+
+    @PostMapping("library/book")
+    public ResponseEntity<String> addBook(@RequestBody Book newBook) {
+        // Check if the book data is provided in the request
+        if (newBook == null) {
+            return ResponseEntity.badRequest().body("Invalid book data");
+        }
+
+        // Try to add the new book to the database
+        Book savedBook = bookService.addBook(newBook);
+        if (savedBook == null) {
+            // This means the book already exists or there was a problem with the data
+            return ResponseEntity.badRequest().body("Book already exists or could not be created");
+        }
+
+        // If the book was successfully added, return an OK response
+        return ResponseEntity.ok("Book added successfully with ID: " + savedBook.bookId());
+    }
+
 
     /**
      * This is the method that updates either the name or the address of a member,
@@ -314,7 +332,6 @@ public class LibraryController {
     @GetMapping("/member/{memberId}/checkoutitems")
     public ResponseEntity<List<CheckedOutItem>> getBorrowedBooks(@PathVariable Long memberId, @RequestParam boolean returned) {
         List<CheckedOutItem> borrowedBooks = checkedOutItemService.getCheckedOutItemsByMember(memberId, returned);
-
 
         return ResponseEntity.ok(borrowedBooks);
     }
