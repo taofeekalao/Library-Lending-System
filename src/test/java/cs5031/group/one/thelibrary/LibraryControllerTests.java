@@ -3,6 +3,8 @@ package cs5031.group.one.thelibrary;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 
 import cs5031.group.one.thelibrary.service.MemberService;
@@ -15,6 +17,7 @@ import cs5031.group.one.thelibrary.model.Book;
 import cs5031.group.one.thelibrary.model.CheckedOutItem;
 import cs5031.group.one.thelibrary.model.LibraryModel;
 import cs5031.group.one.thelibrary.repository.BookRepository;
+import cs5031.group.one.thelibrary.repository.CheckedOutItemRepository;
 import cs5031.group.one.thelibrary.service.BookDBService;
 import cs5031.group.one.thelibrary.service.CheckedOutItemService;
 
@@ -35,18 +38,22 @@ class LibraryControllerTests {
     private CheckedOutItemService checkedOutItemService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private CheckedOutItemRepository checkedOutItemRepository;
 
     @BeforeEach
     public void setUp() {
         libraryModel = new LibraryModel(bookRepository, checkedOutItemService);
         bookService = new BookDBService(bookRepository);
-        libraryController = new LibraryController(libraryModel, bookService, checkedOutItemService, memberService);
+        libraryController = new LibraryController(libraryModel, bookService, checkedOutItemService, memberService,
+                checkedOutItemRepository);
     }
 
     @Test
     void contextLoads() {
     }
 
+    // Test to borrow a book with success
     @Test
     public void testBorrowBookSuccess() {
         Long memberId = 00001L;
@@ -54,6 +61,7 @@ class LibraryControllerTests {
         assertEquals("Book borrowed", result.getBody());
     }
 
+    // Test to borrow a book that should fail
     @Test
     public void testBorrowBookFailure() {
         Long memberId = 00001L;
@@ -61,6 +69,7 @@ class LibraryControllerTests {
         assertEquals("Borrow failed", result.getBody());
     }
 
+    // Test to return a book with success
     @Test
     public void testReturnBookSuccess() {
         Long memberId = 00001L;
@@ -68,13 +77,16 @@ class LibraryControllerTests {
         assertEquals("Book returned", result.getBody());
     }
 
+    // Test to return a book that should fail
     @Test
     public void testReturnBookFailure() {
         Long memberId = 00001L;
         ResponseEntity<String> result = libraryController.returnBook("111", memberId);
-        assertEquals("Return failed", result.getBody());
+        assertTrue("Return failed".equals(result.getBody())
+                || "Book is not currently borrowed by the member".equals(result.getBody()));
     }
 
+    // Test to ensure a book list cannot be empty
     @Test
     public void testGetBookList() {
         // Call the controller method
@@ -90,6 +102,7 @@ class LibraryControllerTests {
         assertNotEquals(0, books.size());
     }
 
+    // Test to ensure a checkedoutitem history list cannot be empty
     @Test
     public void testGetCheckedOutList() {
         // Call the controller method

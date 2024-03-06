@@ -6,7 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
-
+    /*
+     * Method for the respositoy to create a query that will return a book for
+     * the requested isbn
+     */
     Book findByIsbn(String isbn);
 
 }

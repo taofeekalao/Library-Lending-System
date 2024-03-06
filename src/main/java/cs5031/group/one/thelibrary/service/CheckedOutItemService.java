@@ -86,4 +86,16 @@ public class CheckedOutItemService {
         }
         return allCheckedOutItems;
     }
+
+
+    @Transactional
+    public List<CheckedOutItem> getCheckedOutItemsByMember(Long memberId, boolean returnStatus) {
+        List<CheckedOutItem> checkedOutItems = new ArrayList<>();
+        try {
+            checkedOutItems = checkedOutItemRepository.findByMemberAndReturnStatus(memberId, returnStatus);
+        } catch (Exception e) {
+            System.out.println("usage: unable to retrieve checked-out items by member: " + e);
+        }
+        return checkedOutItems;
+    }
 }

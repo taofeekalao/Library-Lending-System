@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import cs5031.group.one.thelibrary.model.Book;
 import cs5031.group.one.thelibrary.repository.BookRepository;
 
+// Book Service
 @Service
 public class BookDBService {
-
+    // load repository
     private final BookRepository bookRepository;
 
     @Autowired
@@ -20,7 +21,9 @@ public class BookDBService {
     }
 
     /**
-     * @return List<Book> - a list of books
+     * A list of books
+     * 
+     * @return a list of books
      */
     public List<Book> getAllBooks() {
         // Get a list of all books (for the user to select one)
@@ -35,6 +38,8 @@ public class BookDBService {
     }
 
     /**
+     * The book being requested
+     * 
      * @param isbn - the book being requested by the user
      * @return Book - the book retrieved from the database
      */
@@ -46,6 +51,8 @@ public class BookDBService {
     }
 
     /**
+     * The book being requested
+     * 
      * @param userBook - save the requested book back to the database
      */
     @Transactional

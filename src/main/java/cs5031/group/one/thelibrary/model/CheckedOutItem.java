@@ -13,13 +13,13 @@ import jakarta.persistence.GenerationType;
 /**
  * This is a record class representing the checked out item.
  *
- * @param checkedOutBookItemId  The ID of the record checked out.
- * @param checkOutDate          The checkout date of the item.
- * @param dueDate               The checkout date of the item.
- * @param returnedDate          The return date of the item.
- * @param returnStatus          The return status of the item.
- * @param bookCheckedOut        The book item that is checked out.
- * @param memberCheckingOutBook The member checking out the book item.
+ * @param checkedOutBookItemId The ID of the record checked out.
+ * @param checkoutDate         The checkout date of the item.
+ * @param dueDate              The checkout date of the item.
+ * @param returnDate           The return date of the item.
+ * @param returnStatus         The return status of the item.
+ * @param book                 The book item that is checked out.
+ * @param member               The member checking out the book item.
  */
 
 public record CheckedOutItem(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long checkedOutBookItemId,
