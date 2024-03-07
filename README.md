@@ -7,16 +7,13 @@ This project is a web-based application designed for library management, enablin
 
 Ensure you have Maven version 3.8.1 or higher and Java JDK 21 installed for system development.
 
-### Run the Back-End
+### Run the Back-End (Spring Application)
 ```shell
 # Check if Java is installed
 java -version
 
 # Check if Maven is installed
 mvn -version 
-
-# Move to the back-end directory
-cd backend
 
 # Install the dependencies
 mvn clean install 
@@ -25,7 +22,7 @@ mvn clean install
 mvn spring-boot:run 
 ```
 
-#### Run the front-end
+#### Run the front-end (React Application)
 
 Ensure Node.js version 20.10.0 or higher and npm version 10.5.0 or higher are installed.
 
