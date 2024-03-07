@@ -298,14 +298,28 @@ const AddMember: React.FC<AddMemberProps> = ({isOpen, onClose}) => {
         address: '',
         emailAddress: ''
     });
+    const [emailValid, setEmailValid] = React.useState<Boolean>(true);
+
+    const validateEmail = (email: string) => {
+        // Simple regex for basic email validation
+        return /\S+@\S+\.\S+/.test(email);
+    };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
+
         setMember({ ...member, [name]: value });
+
+        if (name === 'emailAddress') {
+            setEmailValid(validateEmail(value));
+        }
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!emailValid) {
+            return;
+        }
         fetch('http://localhost:8080/library/member', {
             method: 'POST',
             headers: {
@@ -349,24 +363,42 @@ const AddMember: React.FC<AddMemberProps> = ({isOpen, onClose}) => {
                     <div>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
-                                <label htmlFor="memberName" className="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                                <input type="text" id="memberName" name="memberName" value={member.memberName} onChange={handleInputChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                <label htmlFor="memberName"
+                                       className="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                                <input type="text" id="memberName" name="memberName" value={member.memberName}
+                                       onChange={handleInputChange}
+                                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Address</label>
-                                <input type="text" id="address" name="address" value={member.address} onChange={handleInputChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                <label htmlFor="address"
+                                       className="block text-gray-700 text-sm font-bold mb-2">Address</label>
+                                <input type="text" id="address" name="address" value={member.address}
+                                       onChange={handleInputChange}
+                                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="emailAddress" className="block text-gray-700 text-sm font-bold mb-2">Email</
-                                    label>
-                                <input type="email" id="emailAddress" name="emailAddress" value={member.emailAddress} onChange={handleInputChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                <label htmlFor="emailAddress" className="block text-gray-700 text-sm font-bold mb-2">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    id="emailAddress"
+                                    name="emailAddress"
+                                    value={member.emailAddress}
+                                    onChange={handleInputChange}
+                                    className={`shadow appearance-none border ${emailValid ? 'border-gray-300' : 'border-red-500'} rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                                />
+                                {!emailValid &&
+                                    <p className="text-red-500 text-xs italic">Please enter a valid email address.</p>}
                             </div>
                             <div className="flex justify-end">
-                                <button type="submit" className="p-2 text-white bg-blue-500 hover:bg-blue-700 rounded">Submit</button>
+                                <button type="submit"
+                                        className="p-2 text-white bg-blue-500 hover:bg-blue-700 rounded">Submit
+                                </button>
                             </div>
                         </form>
                     </div>
-                    <Dialog.Close />
+                    <Dialog.Close/>
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
