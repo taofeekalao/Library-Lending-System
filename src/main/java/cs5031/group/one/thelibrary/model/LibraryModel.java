@@ -1,10 +1,10 @@
 package cs5031.group.one.thelibrary.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import cs5031.group.one.thelibrary.repository.BookRepository;
 import cs5031.group.one.thelibrary.service.BookDBService;
 import cs5031.group.one.thelibrary.service.CheckedOutItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /*
  * Model class for the CS5031 P2 library assisgnment
@@ -15,6 +15,12 @@ public class LibraryModel {
     private final BookDBService bookDBService;
     private final CheckedOutItemService checkedOutItemService;
 
+    /**
+     * This is the model class for the library entity.
+     *
+     * @param bookRepository
+     * @param checkedOutItemService
+     */
     @Autowired
     public LibraryModel(BookRepository bookRepository, CheckedOutItemService checkedOutItemService) {
         this.bookDBService = new BookDBService(bookRepository);
@@ -23,13 +29,11 @@ public class LibraryModel {
 
     /**
      * The controller asks the model to perform the borrow book steps.
-     * 
      * Update the book record and add an entry into the checkedoutitems history
-     * 
+     *
      * @param isbn     - isbn number
      * @param memberId - member id
      * @return boolean
-     * 
      */
     public boolean borrowBook(String isbn, Long memberId) {
         boolean borrowed = false;
@@ -61,11 +65,10 @@ public class LibraryModel {
     }
 
     /**
-     * 
      * The controller asks the model to perform the return book steps.
-     * 
+     * <p>
      * Update the book record and update the entry into the checkedoutitems history
-     * 
+     *
      * @param isbn     - isbn number
      * @param memberId - member id
      * @return boolean

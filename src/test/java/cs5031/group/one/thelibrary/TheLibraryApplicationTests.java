@@ -1,15 +1,16 @@
 package cs5031.group.one.thelibrary;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Optional;
-
 import cs5031.group.one.thelibrary.model.CheckedOutItem;
 import cs5031.group.one.thelibrary.model.LibraryModel;
 import cs5031.group.one.thelibrary.repository.CheckedOutItemRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class TheLibraryApplicationTests {

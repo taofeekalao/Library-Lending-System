@@ -11,10 +11,10 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectClasses({
-                TheLibraryApplicationTests.class,
-                LibraryMVCTests.class,
-                LibraryControllerTests.class,
-                LibraryControllerTest.class })
+        TheLibraryApplicationTests.class,
+        LibraryMVCTests.class,
+        LibraryControllerTests.class,
+        LibraryControllerTest.class})
 
 public class LibraryTestSuite {
 

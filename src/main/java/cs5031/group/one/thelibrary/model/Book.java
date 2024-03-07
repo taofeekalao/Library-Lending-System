@@ -15,40 +15,34 @@ import org.springframework.data.annotation.Id;
  *                           library.
  */
 public record Book(@Id Long bookId, String isbn, String title, String author, int quantityInLibrary,
-        int quantityCheckedOut) {
+                   int quantityCheckedOut) {
 
     /**
-     * 
      * Quantity of book copies available to borrow
-     * 
+     *
      * @return Quantity
-     * 
      */
     public int getQuantityIn() {
-
         return quantityInLibrary;
     }
 
     /**
      * Quantity of book copies borrowed
-     * 
+     *
      * @return Quantity
      */
     public int getQuantityOut() {
-
         return quantityCheckedOut;
     }
 
     /**
      * New quantity
-     * 
+     *
      * @param newIn  New quantity in
      * @param newOut New quantity out
      * @return Book - with updated quantities
      */
     public Book withUpdatedQuantities(int newIn, int newOut) {
-        Book updatedBook = new Book(bookId, isbn, title, author, newIn, newOut);
-
-        return updatedBook;
+        return new Book(bookId, isbn, title, author, newIn, newOut);
     }
 }

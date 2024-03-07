@@ -1,17 +1,5 @@
 package cs5031.group.one.thelibrary;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-
-import cs5031.group.one.thelibrary.service.MemberService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import cs5031.group.one.thelibrary.controller.LibraryController;
 import cs5031.group.one.thelibrary.model.Book;
 import cs5031.group.one.thelibrary.model.CheckedOutItem;
@@ -20,8 +8,16 @@ import cs5031.group.one.thelibrary.repository.BookRepository;
 import cs5031.group.one.thelibrary.repository.CheckedOutItemRepository;
 import cs5031.group.one.thelibrary.service.BookDBService;
 import cs5031.group.one.thelibrary.service.CheckedOutItemService;
-
+import cs5031.group.one.thelibrary.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class LibraryControllerTests {
