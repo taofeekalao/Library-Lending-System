@@ -12,7 +12,7 @@ export const useBookStore = create<BookState>((set) => ({
     setBooks: (books) => set({ books }),
     fetchBooks: async () => {
         try {
-            const response = await fetch('http://localhost:8080/bookList');
+            const response = await fetch('http://localhost:8080/library/bookList');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
