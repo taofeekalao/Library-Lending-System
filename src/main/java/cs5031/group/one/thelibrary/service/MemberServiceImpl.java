@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This is the service implementation of the member service created for the model of the library system.
+ * This is the service implementation of the member service created for the
+ * model of the library system.
  */
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -37,7 +38,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * This is the service implementation method to find member using member's email address.
+     * This is the service implementation method to find member using member's email
+     * address.
      *
      * @param emailAddress This is the input parameter
      * @return The method returns a member object
@@ -47,13 +49,12 @@ public class MemberServiceImpl implements MemberService {
         return Optional.ofNullable(memberRepository.findMemberByEmailAddress(emailAddress));
     }
 
-
     /**
      * This is the service implementation method to delete member using member's id.
      *
      * @param id This is the input parameter
-     * @return The method returns a member object
      */
+    @SuppressWarnings("null")
     @Override
     public void deleteMemberById(Long id) {
         if (existsMemberById(id)) {
@@ -62,11 +63,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * This is the service implementation method to delete member using member's email address.
+     * This is the service implementation method to delete member using member's
+     * email address.
      *
      * @param emailAddress This is the input parameter
-     * @return The method returns a member object
      */
+    @SuppressWarnings("null")
     @Override
     public void deleteMemberByEmailAddress(String emailAddress) {
         if (existsMemberByEmailAddress(emailAddress)) {
@@ -75,24 +77,26 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-
     /**
-     * This is the service implementation method to check existence of a member using member's email address.
+     * This is the service implementation method to check existence of a member
+     * using member's email address.
      *
      * @param id This is the input parameter
-     * @return This returns a boolean true or false depending on member's existence in the system.
+     * @return This returns a boolean true or false depending on member's existence
+     *         in the system.
      */
     @Override
     public boolean existsMemberById(Long id) {
         return memberRepository.existsMemberByMemberId(id);
     }
 
-
     /**
-     * This is the service implementation method to check existence of a member using member's email address.
+     * This is the service implementation method to check existence of a member
+     * using member's email address.
      *
      * @param emailAddress This is the input parameter
-     * @return This returns a boolean true or false depending on member's existence in the system.
+     * @return This returns a boolean true or false depending on member's existence
+     *         in the system.
      */
     @Override
     public boolean existsMemberByEmailAddress(String emailAddress) {
@@ -100,18 +104,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * This is the service implementation method to add a new member to the library system.
+     * This is the service implementation method to add a new member to the library
+     * system.
      *
      * @param member This is the input parameter
      * @return This returns a member object created.
      */
+    @SuppressWarnings("null")
     @Override
     public Member addMemberToTheLibrary(Member member) {
         return memberRepository.save(member);
     }
 
     /**
-     * This is the service implementation method to list all members in the library system.
+     * This is the service implementation method to list all members in the library
+     * system.
      *
      * @return This returns a list of all member objects in the system.
      */
@@ -130,6 +137,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @param member This is the input parameter
      */
+    @SuppressWarnings("null")
     @Override
     public void updateMemberDetail(Member member) {
         memberRepository.save(member);

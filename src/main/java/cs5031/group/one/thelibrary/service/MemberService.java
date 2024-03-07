@@ -10,7 +10,6 @@ import java.util.Optional;
  */
 public interface MemberService {
 
-
     /**
      * This is the service interface method to find member using member's id.
      *
@@ -20,7 +19,8 @@ public interface MemberService {
     Optional<Member> findMemberById(Long id);
 
     /**
-     * This is the service interface method to find member using member's email address.
+     * This is the service interface method to find member using member's email
+     * address.
      *
      * @param emailAddress This is the input parameter
      * @return The method returns a member object
@@ -31,36 +31,40 @@ public interface MemberService {
      * This is the service interface method to delete member using member's id.
      *
      * @param id This is the input parameter
-     * @return The method returns a member object
      */
     void deleteMemberById(Long id);
 
     /**
-     * This is the service interface method to delete member using member's email address.
+     * This is the service interface method to delete member using member's email
+     * address.
      *
      * @param emailAddress This is the input parameter
-     * @return The method returns a member object
      */
     void deleteMemberByEmailAddress(String emailAddress);
 
     /**
-     * This is the service interface method to check existence of a member using member's email address.
+     * This is the service interface method to check existence of a member using
+     * member's email address.
      *
      * @param id This is the input parameter
-     * @return This returns a boolean true or false depending on member's existence in the system.
+     * @return This returns a boolean true or false depending on member's existence
+     *         in the system.
      */
     boolean existsMemberById(Long id);
 
     /**
-     * This is the service interface method to check existence of a member using member's email address.
+     * This is the service interface method to check existence of a member using
+     * member's email address.
      *
      * @param emailAddress This is the input parameter
-     * @return This returns a boolean true or false depending on member's existence in the system.
+     * @return This returns a boolean true or false depending on member's existence
+     *         in the system.
      */
     boolean existsMemberByEmailAddress(String emailAddress);
 
     /**
-     * This is the service interface method to add a new member to the library system.
+     * This is the service interface method to add a new member to the library
+     * system.
      *
      * @param member This is the input parameter
      * @return This returns a member object created.
@@ -68,7 +72,8 @@ public interface MemberService {
     Member addMemberToTheLibrary(Member member);
 
     /**
-     * This is the service interface method to list all members in the library system.
+     * This is the service interface method to list all members in the library
+     * system.
      *
      * @return This returns a list of all member objects in the system.
      */

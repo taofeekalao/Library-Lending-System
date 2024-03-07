@@ -23,10 +23,19 @@ public class LibraryMVCTests {
     @SuppressWarnings("null")
     @Test
     public void testBorrowEndpoint() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/library/borrowed")
-                        .param("isbn", "9780743273565")
-                        .param("member_Id", "00001")
-                        .contentType(MediaType.APPLICATION_JSON))
+        String checkoutRequest = "{" +
+                "\"checkedOutBookItemId\": null," +
+                "\"member\": 1," +
+                "\"book\": \"9780743273565\"," +
+                "\"checkoutDate\": \"2022-03-07\"," +
+                "\"dueDate\": \"2022-04-07\"," +
+                "\"returnStatus\": false," +
+                "\"returnDate\": null" +
+                "}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/library/borrowed")
+                .content(checkoutRequest)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Book borrowed"))
                 .andDo(MockMvcResultHandlers.print());
@@ -37,10 +46,19 @@ public class LibraryMVCTests {
     @SuppressWarnings("null")
     @Test
     public void testReturnEndpoint() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/library/returned")
-                        .param("isbn", "9780743273565")
-                        .param("member_Id", "00001")
-                        .contentType(MediaType.APPLICATION_JSON))
+        String checkoutRequest = "{" +
+                "\"checkedOutBookItemId\": null," +
+                "\"member\": 1," +
+                "\"book\": \"9780743273565\"," +
+                "\"checkoutDate\": \"2022-03-07\"," +
+                "\"dueDate\": \"2022-04-07\"," +
+                "\"returnStatus\": false," +
+                "\"returnDate\": null" +
+                "}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/library/returned")
+                .content(checkoutRequest)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Book returned"))
                 .andDo(MockMvcResultHandlers.print());

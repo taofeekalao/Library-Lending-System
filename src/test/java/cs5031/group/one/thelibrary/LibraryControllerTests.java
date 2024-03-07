@@ -52,32 +52,32 @@ class LibraryControllerTests {
     // Test to borrow a book with success
     @Test
     public void testBorrowBookSuccess() {
-        Long memberId = 00001L;
-        ResponseEntity<String> result = libraryController.borrowBook("9780451524935", memberId);
+        CheckedOutItem checkoutBook = new CheckedOutItem(null, 00001L, "9780451524935", null, null, false, null);
+        ResponseEntity<String> result = libraryController.borrowBook(checkoutBook);
         assertEquals("Book borrowed", result.getBody());
     }
 
     // Test to borrow a book that should fail
     @Test
     public void testBorrowBookFailure() {
-        Long memberId = 00001L;
-        ResponseEntity<String> result = libraryController.borrowBook("111", memberId);
+        CheckedOutItem checkoutBook = new CheckedOutItem(null, 00001L, "111", null, null, false, null);
+        ResponseEntity<String> result = libraryController.borrowBook(checkoutBook);
         assertEquals("Borrow failed", result.getBody());
     }
 
     // Test to return a book with success
     @Test
     public void testReturnBookSuccess() {
-        Long memberId = 00001L;
-        ResponseEntity<String> result = libraryController.returnBook("9780451524935", memberId);
+        CheckedOutItem returnBook = new CheckedOutItem(null, 00001L, "9780451524935", null, null, false, null);
+        ResponseEntity<String> result = libraryController.returnBook(returnBook);
         assertEquals("Book returned", result.getBody());
     }
 
     // Test to return a book that should fail
     @Test
     public void testReturnBookFailure() {
-        Long memberId = 00001L;
-        ResponseEntity<String> result = libraryController.returnBook("111", memberId);
+        CheckedOutItem returnBook = new CheckedOutItem(null, 00001L, "111", null, null, false, null);
+        ResponseEntity<String> result = libraryController.returnBook(returnBook);
         assertTrue("Return failed".equals(result.getBody())
                 || "Book is not currently borrowed by the member".equals(result.getBody()));
     }
