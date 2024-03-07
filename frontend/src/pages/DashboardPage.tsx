@@ -2,6 +2,8 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import React, { useState} from "react";
 import { Book } from "@/types/book";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BorrowBook: React.FC = () => {
 
@@ -14,13 +16,16 @@ const BorrowBook: React.FC = () => {
     const handleMemberId = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMemberId(e.target.value);
     }
-    const borrowBook = async () => {
-        const response = await fetch('http://localhost:8080/borrowed?member_Id=' + memberId + '&isbn=' + bookId);
-        if (response.ok) {
-            console.log('Book borrowed successfully');
-        } else {
-            console.error('Failed to borrow book');
-        }
+    const borrowBook = () => {
+        fetch('http://localhost:8080/borrowed?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
+            if (response.ok) {
+                toast.success('Book borrowed successfully')
+            } else {
+                toast.error('Failed to borrow book')
+            }
+        })
+        setBookId('');
+        setMemberId('');
     }
 
     return (
@@ -29,7 +34,7 @@ const BorrowBook: React.FC = () => {
                 <CardTitle className="flex justify-center m-3">Borrow Book</CardTitle>
             </CardHeader>
             <div>
-                <form onSubmit={borrowBook} className="m-3">
+                <form onSubmit={(e) => { e.preventDefault(); borrowBook()}} className="m-3">
                     <div className="mb-4">
                         <label htmlFor="memberName" className="block text-gray-700 text-sm font-bold mb-2">MemberId</label>
                         <input type="text" id="memberName" name="memberName" value={memberId}
@@ -65,13 +70,17 @@ const ReturnBook: React.FC = () => {
     const handleMemberId = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMemberId(e.target.value);
     }
-    const returnBook = async () => {
-        const response = await fetch('http://localhost:8080/returned?member_Id=' + memberId + '&isbn=' + bookId);
-        if (response.ok) {
-            console.log('Book returned successfully');
-        } else {
-            console.error('Failed to return book');
-        }
+    const returnBook = () => {
+        fetch('http://localhost:8080/returned?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
+            if (response.ok) {
+                toast.success('Book returned successfully')
+            } else {
+                toast.error('Failed to return book')
+            }
+        })
+
+        setBookId('');
+        setMemberId('');
     }
 
     return (
@@ -80,7 +89,7 @@ const ReturnBook: React.FC = () => {
                 <CardTitle className="flex justify-center m-3">Return Book</CardTitle>
             </CardHeader>
             <div>
-                <form onSubmit={returnBook} className="m-3">
+                <form onSubmit={(e) => { e.preventDefault(); returnBook()}} className="m-3">
                     <div className="mb-4">
                         <label htmlFor="memberName" className="block text-gray-700 text-sm font-bold mb-2">MemberId</label>
                         <input type="text" id="memberName" name="memberName" value={memberId}
@@ -108,6 +117,7 @@ export default function DashboardPage(): React.ReactElement<Book> {
     return (
         <>
             <PageHeader>
+                <ToastContainer/>
                 {/*<PageHeaderHeading>Book</PageHeaderHeading>*/}
                 <BorrowBook/>
                 <ReturnBook/>
