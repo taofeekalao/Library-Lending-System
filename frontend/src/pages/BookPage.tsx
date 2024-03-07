@@ -68,7 +68,7 @@ const AddBook: React.FC<AddBookProps> = ({isOpen, onClose}) => {
                 <Dialog.Overlay className="fixed inset-0 bg-black/30" />
                 <Dialog.Content className="fixed p-6 bg-white rounded top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2">
                     <Dialog.Title>
-                        <div className="text-center font-bold">Add Member</div>
+                        <div className="text-center font-bold">Add Book</div>
                     </Dialog.Title>
                     <div>
                         <form onSubmit={handleSubmit}>
@@ -116,7 +116,6 @@ const BookTable: React.FC = () => {
         fetchBooks().then(() => console.log(books));
     }, [fetchBooks]);
 
-
     return (
         <table className="table-auto w-full">
             <thead>
@@ -130,6 +129,8 @@ const BookTable: React.FC = () => {
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider2">Quantity
                     Checked Out
                 </th>
+
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Available </th>
             </tr>
             </thead>
             <tbody>
@@ -140,6 +141,16 @@ const BookTable: React.FC = () => {
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.isbn}</td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.quantityInLibrary}</td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.quantityCheckedOut}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 text-sm">
+                        {book.quantityInLibrary - book.quantityCheckedOut >= 0 ? (
+                            <span
+                                className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-600 bg-green-200 rounded-full">True</span>
+                        ) : (
+                            <span
+                                className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-200 rounded-full">False</span>
+                        )}
+                    </td>
+
                 </tr>
             ))}
             </tbody>
@@ -167,7 +178,7 @@ export default function BookPage(): React.ReactElement<Book> {
                 <CardHeader>
                     <div className="flex justify-end items-center">
                         <button onClick={addBook} className="p-2 text-white bg-blue-500 hover:bg-blue-700 rounded">Add
-                            Member
+                            Book
                         </button>
                     </div>
                 </CardHeader>
