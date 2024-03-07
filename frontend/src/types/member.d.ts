@@ -18,7 +18,14 @@ export interface ModalProps {
 
 }
 
+export interface UpdateMemberProps {
+    isOpen: boolean;
+    onClose: () => void;
+    memberId: number;
+}
+
 export interface AddMemberProps {
     isOpen: boolean;
     onClose: () => void;
 }
+

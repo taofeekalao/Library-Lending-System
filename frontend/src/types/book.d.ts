@@ -1,15 +1,17 @@
 export interface Book {
-    bookId: number;
+    bookId?: number;
     isbn: string;
     title: string;
     author: string;
     quantityInLibrary: number;
     quantityCheckedOut: number;
-    quantityIn: number;
-    quantityOut: number;
 }
-
 
 export interface BookTableProps {
     books: Book[];
+}
+
+export interface AddBookProps {
+    isOpen: boolean;
+    onClose: () => void;
 }

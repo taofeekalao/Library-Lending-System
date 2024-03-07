@@ -16,7 +16,7 @@ npm run dev
 ## Project Structure
 
 ```
-react-shadcn-starter/
+frontend/
 ├── public/            # Public assets
 ├── src/               # Application source code
 │   ├── components/    # React components

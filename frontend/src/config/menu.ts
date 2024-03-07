@@ -16,16 +16,16 @@ interface NavItemWithChildren extends NavItem {
 
 export const mainMenu: NavItemWithChildren[] = [
     {
-        title: 'Dashboard',
-        to: '',
+        title: 'Member',
+        to: '/member',
     },
     {
         title: 'Book',
         to: '/book',
     },
     {
-        title: 'Member',
-        to: '/member',
+        title: 'Borrow & Return',
+        to: '/',
     }
 ]
 
