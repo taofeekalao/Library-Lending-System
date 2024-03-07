@@ -105,7 +105,6 @@ public class MemberServiceImpl implements MemberService {
      * @param member This is the input parameter
      * @return This returns a member object created.
      */
-    @SuppressWarnings("null")
     @Override
     public Member addMemberToTheLibrary(Member member) {
         return memberRepository.save(member);

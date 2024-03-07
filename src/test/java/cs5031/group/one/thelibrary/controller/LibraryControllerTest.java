@@ -18,7 +18,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LibraryControllerTest {
@@ -61,7 +60,7 @@ public class LibraryControllerTest {
      */
     @Test
     @DirtiesContext
-    void shoutReturnAMemberWhenDataIsSaved () {
+    void shoutReturnAMemberWhenDataIsSaved() {
         ResponseEntity<String> response = restTemplate
                 .getForEntity("/library/member/5", String.class);
 
@@ -74,7 +73,6 @@ public class LibraryControllerTest {
         String email = documentContext.read("$.emailAddress");
         assertThat(email).isEqualTo("user.five@st-andrews.ac.uk");
     }
-
 
 
     /**
@@ -164,7 +162,7 @@ public class LibraryControllerTest {
     @Test
     @DirtiesContext
     void shouldUpdateAnExistingMember() {
-        Member memberUpdate = new Member(null, "Mathew Lewis",  null, null);
+        Member memberUpdate = new Member(null, "Mathew Lewis", null, null);
         Member memberUpdate1 = new Member(null, null, "Johnson S4 Fife Park, KY16 0US", null);
         HttpEntity<Member> request = new HttpEntity<>(memberUpdate);
         ResponseEntity<Void> response = restTemplate
@@ -189,7 +187,7 @@ public class LibraryControllerTest {
      */
     @Test
     void shouldNotUpdateAMemberThatDoesNotExist() {
-        Member unknownMember = new Member(null, "Mathew Lewis",  null, null);
+        Member unknownMember = new Member(null, "Mathew Lewis", null, null);
         HttpEntity<Member> request = new HttpEntity<>(unknownMember);
         ResponseEntity<Void> response = restTemplate
                 .exchange("/library/member/99999", HttpMethod.PUT, request, Void.class);
@@ -202,7 +200,7 @@ public class LibraryControllerTest {
      */
     @Test
     void shouldNotUpdateEmailAddressOfAMember() {
-        Member memberWithEmailAddress = new Member(null, "Mathew Lewis",  null, "user.two@st-andrews.ac.uk");
+        Member memberWithEmailAddress = new Member(null, "Mathew Lewis", null, "user.two@st-andrews.ac.uk");
         HttpEntity<Member> request = new HttpEntity<>(memberWithEmailAddress);
         ResponseEntity<Void> response = restTemplate
                 .exchange("/library/member/2", HttpMethod.PUT, request, Void.class);

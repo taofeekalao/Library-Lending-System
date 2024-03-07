@@ -13,9 +13,9 @@ DROP TABLE IF EXISTS library;
 CREATE TABLE member
 (
     member_id     LONG PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    member_name   VARCHAR(255)                   NOT NULL,
+    member_name   VARCHAR(255)                    NOT NULL,
     address       VARCHAR(255),
-    email_address VARCHAR(255) UNIQUE            NOT NULL
+    email_address VARCHAR(255) UNIQUE             NOT NULL
 );
 
 /**
@@ -39,7 +39,7 @@ CREATE TABLE checked_out_item
 (
     checked_out_book_item_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     member                   INT                            NOT NULL,
-    book                     LONG                            NOT NULL,
+    book                     LONG                           NOT NULL,
     checkout_date            DATE                           NOT NULL,
     due_date                 DATE                           NOT NULL,
     return_status            BOOLEAN DEFAULT FALSE          NOT NULL,

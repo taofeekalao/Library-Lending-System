@@ -3,21 +3,20 @@ package cs5031.group.one.thelibrary.controller;
 import cs5031.group.one.thelibrary.model.Book;
 import cs5031.group.one.thelibrary.model.CheckedOutItem;
 import cs5031.group.one.thelibrary.model.LibraryModel;
-import cs5031.group.one.thelibrary.service.BookDBService;
-import cs5031.group.one.thelibrary.service.CheckedOutItemService;
 import cs5031.group.one.thelibrary.model.Member;
 import cs5031.group.one.thelibrary.repository.CheckedOutItemRepository;
+import cs5031.group.one.thelibrary.service.BookDBService;
+import cs5031.group.one.thelibrary.service.CheckedOutItemService;
 import cs5031.group.one.thelibrary.service.MemberService;
-
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * This is the controller of the application.
@@ -31,10 +30,19 @@ public class LibraryController {
     private final MemberService memberService;
     private final CheckedOutItemRepository checkedOutItemRepository;
 
+    /**
+     * This is the constructor for the class.
+     *
+     * @param libraryModel             The library model parameter.
+     * @param bookService              The book service parameter.
+     * @param checkedOutItemService    The checked out item parameter.
+     * @param memberService            The member service parameter.
+     * @param checkedOutItemRepository The checked out item repository parameter.
+     */
     @Autowired
     public LibraryController(LibraryModel libraryModel, BookDBService bookService,
-            CheckedOutItemService checkedOutItemService, MemberService memberService,
-            CheckedOutItemRepository checkedOutItemRepository) {
+                             CheckedOutItemService checkedOutItemService, MemberService memberService,
+                             CheckedOutItemRepository checkedOutItemRepository) {
         this.libraryModel = libraryModel;
         this.bookService = bookService;
         this.checkedOutItemService = checkedOutItemService;
@@ -42,27 +50,17 @@ public class LibraryController {
         this.checkedOutItemRepository = checkedOutItemRepository;
     }
 
-    /**
-     * This is a default/basic home controller of the application.
-     *
-     * @return Return a string "Welcome to the library!".
-     */
-    @GetMapping("/welcome")
-    public String home() {
-        return "Welcome to the Library";
-    }
 
     /**
-     * 
      * REST api call to borrow book for member
      * Note: a member can only borrow one copy of any given book,
      * therefore, this is considered idempotent
-     * 
+     *
      * @param isbn      - the book isbn number
      * @param member_Id - the member id
      * @return ResponseEntity - http response to the client
      */
-    @GetMapping("/borrowed")
+    @GetMapping("/library/borrowed")
     public ResponseEntity<String> borrowBook(
             @RequestParam String isbn,
             @RequestParam Long member_Id) {
@@ -97,14 +95,13 @@ public class LibraryController {
     }
 
     /**
-     * 
      * Return book for member
-     * 
+     *
      * @param isbn      - the book isbn number
      * @param member_Id - the member id
      * @return ResponseEntity - http response to the client
      */
-    @GetMapping("/returned")
+    @GetMapping("/library/returned")
     public ResponseEntity<String> returnBook(
             @RequestParam String isbn,
             @RequestParam Long member_Id) {
@@ -138,13 +135,12 @@ public class LibraryController {
     }
 
     /**
-     * 
      * List of books in the library and their status
-     * 
+     *
      * @return ResponseEntity - List of books back to
-     *         client
+     * client
      */
-    @GetMapping("/bookList")
+    @GetMapping("/library/bookList")
     public ResponseEntity<List<Book>> getBookList() {
         // Get a list of all books
         List<Book> bookList = bookService.getAllBooks();
@@ -164,13 +160,12 @@ public class LibraryController {
     }
 
     /**
-     * 
      * List of checked out items in the library
      *
      * @return ResponseEntity - List of
-     *         checkedout item history back to client
+     * checkedout item history back to client
      */
-    @GetMapping("/checkedOutList")
+    @GetMapping("/library/checkedOutList")
     public ResponseEntity<List<CheckedOutItem>> getCheckedOutList() {
         // Get a list of all checked-out items
         List<CheckedOutItem> checkedOutItemList = checkedOutItemService.getAllCheckedOutItems();
@@ -191,7 +186,6 @@ public class LibraryController {
     }
 
     /**
-     * 
      * This is the post method to add a new member to the list of members who
      * subscribed to the library service.
      *
@@ -203,7 +197,7 @@ public class LibraryController {
      */
     @PostMapping("/library/member")
     private ResponseEntity<Void> createMember(@RequestBody Member newMember,
-            UriComponentsBuilder uriComponentsBuilder) {
+                                              UriComponentsBuilder uriComponentsBuilder) {
         Member newLibraryMember = new Member(null, newMember.memberName(), newMember.address(),
                 newMember.emailAddress());
         Optional<Member> existingMember = memberService.findMemberByEmailAddress((newMember.emailAddress()));
@@ -221,7 +215,6 @@ public class LibraryController {
     }
 
     /**
-     * 
      * This is the get method to retrieve a member from the list of members who
      * subscribed to the library service.
      *
@@ -239,10 +232,9 @@ public class LibraryController {
     }
 
     /**
-     * 
      * This is the delete method that removes member from the library using either
      * member's id or member's email address.
-     * 
+     *
      * @param requestId The request parameter - either the member's id or the
      *                  member's email address'
      * @return The method returns a response entity object.
@@ -271,10 +263,9 @@ public class LibraryController {
     }
 
     /**
-     * 
      * This is the method that gets all the members in the system and returns a list
      * of members.
-     * 
+     *
      * @return This returns a list of members.
      */
     @GetMapping("/library/member/")
@@ -283,7 +274,13 @@ public class LibraryController {
         return ResponseEntity.ok(memberList);
     }
 
-    @PostMapping("library/book")
+    /**
+     * This is the method to add a book item to the library system.
+     *
+     * @param newBook This is the detail of the book to be added to the library.
+     * @return This returns a response entity object.
+     */
+    @PostMapping("/library/book")
     public ResponseEntity<String> addBook(@RequestBody Book newBook) {
         // Check if the book data is provided in the request
         if (newBook == null) {
@@ -304,7 +301,8 @@ public class LibraryController {
 
     /**
      * This is the method that updates either the name or the address of a member,
-     * @param requestedId The is the id of the member to be updated.
+     *
+     * @param requestedId  The is the id of the member to be updated.
      * @param memberUpdate This is the request body of the member to be updated.
      * @return Return a response entity object which could be success or failure depending on the outcome of the transaction.
      */
@@ -321,7 +319,7 @@ public class LibraryController {
             if (memberUpdate.address() != null) {
                 newMemberAddress = memberUpdate.address();
             }
-            Member updatedMember = new Member(member.get().memberId(), newMemberName,  newMemberAddress, member.get().emailAddress());
+            Member updatedMember = new Member(member.get().memberId(), newMemberName, newMemberAddress, member.get().emailAddress());
             memberService.updateMemberDetail(updatedMember);
             return ResponseEntity.noContent().build();
         }
@@ -329,7 +327,14 @@ public class LibraryController {
     }
 
 
-    @GetMapping("/member/{memberId}/checkoutitems")
+    /**
+     * This is the method to get the book items checked out by a member using a member's id
+     *
+     * @param memberId The is the member id
+     * @param returned This is the return status of a book item.
+     * @return This returns a response entity item.
+     */
+    @GetMapping("/library/member/{memberId}/checkoutitems")
     public ResponseEntity<List<CheckedOutItem>> getBorrowedBooks(@PathVariable Long memberId, @RequestParam boolean returned) {
         List<CheckedOutItem> borrowedBooks = checkedOutItemService.getCheckedOutItemsByMember(memberId, returned);
 
