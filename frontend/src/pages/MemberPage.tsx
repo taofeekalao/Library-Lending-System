@@ -240,7 +240,7 @@ const MemberCheckout: React.FC<ModalProps> = ({isOpen, onClose, memberId, return
         setCheckedOutItems([]);
         if(memberId === 0) return;
         try {
-            fetch(`http://localhost:8080/member/${memberId}/checkoutitems?returned=${returned}`)
+            fetch(`http://localhost:8080/library/member/${memberId}/checkoutitems?returned=${returned}`)
                 .then(response => response.json())
                 .then(data => setCheckedOutItems(data));
         } catch (error) {

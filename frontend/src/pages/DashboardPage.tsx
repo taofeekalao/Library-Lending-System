@@ -17,7 +17,7 @@ const BorrowBook: React.FC = () => {
         setMemberId(e.target.value);
     }
     const borrowBook = () => {
-        fetch('http://localhost:8080/borrowed?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
+        fetch('http://localhost:8080/library/borrowed?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
             if (response.ok) {
                 toast.success('Book borrowed successfully')
             } else {
@@ -71,7 +71,7 @@ const ReturnBook: React.FC = () => {
         setMemberId(e.target.value);
     }
     const returnBook = () => {
-        fetch('http://localhost:8080/returned?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
+        fetch('http://localhost:8080/library/returned?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
             if (response.ok) {
                 toast.success('Book returned successfully')
             } else {
