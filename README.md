@@ -57,7 +57,7 @@ Use mvn clean package to build the Spring application. Copy `target/library-0.0.
 To deploy the front-end, use a web server like Nginx to serve the static files. First, build the front-end with `npm run build`. Then, copy the build directory to your server and configure Nginx to serve these static files. Finally, start the Nginx server.
 
 ## Testing
-Run unit tests using Maven by executing mvn test in the project root. This will execute all JUnit5 tests located in the src/test directory.
+Run unit tests using Maven by executing `mvn test` in the project root. This will execute all JUnit5 tests located in the `src/test` directory.
 
 ## Code Collaboration
 The project was developed collaboratively following the GitLab Flow. The repository is hosted on [GitLab](https://gitlab.cs.st-andrews.ac.uk/cs5031-p2-group01/cs5031-p2). Each team members should use separate branches for each feature or bug fix. Merge requests are created when a feature is complete. Only the repository Owner can merge these requests to the `main` branch.
