@@ -1,6 +1,8 @@
 package cs5031.group.one.thelibrary.service;
 
+import cs5031.group.one.thelibrary.model.CheckedOutItem;
 import cs5031.group.one.thelibrary.model.Member;
+import cs5031.group.one.thelibrary.repository.CheckedOutItemRepository;
 import cs5031.group.one.thelibrary.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,16 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     MemberRepository memberRepository;
+    CheckedOutItemRepository checkedOutItemRepository;
 
     /**
      * This is the constructor of the class.
      *
      * @param memberRepository This is the repository object as a parameter.
      */
-    public MemberServiceImpl(MemberRepository memberRepository) {
+    public MemberServiceImpl(MemberRepository memberRepository, CheckedOutItemRepository  checkedOutItemRepository) {
         this.memberRepository = memberRepository;
+        this.checkedOutItemRepository = checkedOutItemRepository;
     }
 
     /**
@@ -56,10 +60,16 @@ public class MemberServiceImpl implements MemberService {
      */
     @SuppressWarnings("null")
     @Override
-    public void deleteMemberById(Long id) {
+    public boolean deleteMemberById(Long id) {
         if (existsMemberById(id)) {
-            memberRepository.deleteById(id);
+            CheckedOutItem itemsCheckedOutResult = checkedOutItemRepository.findByMemberAndReturnStatusIsFalse(id).orElse(null);
+            if (null == itemsCheckedOutResult) {
+                memberRepository.deleteById(id);
+                return true;
+            }
+            return false;
         }
+        return false;
     }
 
     /**
@@ -70,11 +80,17 @@ public class MemberServiceImpl implements MemberService {
      */
     @SuppressWarnings("null")
     @Override
-    public void deleteMemberByEmailAddress(String emailAddress) {
+    public boolean deleteMemberByEmailAddress(String emailAddress) {
         if (existsMemberByEmailAddress(emailAddress)) {
             Member member = memberRepository.findMemberByEmailAddress(emailAddress);
-            memberRepository.deleteById(member.memberId());
+            CheckedOutItem itemsCheckedOutResult = checkedOutItemRepository.findByMemberAndReturnStatusIsFalse(member.memberId()).orElse(null);
+            if (itemsCheckedOutResult == null) {
+                memberRepository.deleteById(member.memberId());
+                return true;
+            }
+            return false;
         }
+        return false;
     }
 
     /**

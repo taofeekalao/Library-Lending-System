@@ -103,7 +103,7 @@ public class LibraryControllerTest {
         @DirtiesContext
         void shouldDeleteAnExistingMember() {
                 ResponseEntity<Void> response = restTemplate
-                                .exchange("/library/member/5", HttpMethod.DELETE, null, Void.class);
+                                .exchange("/library/member/6", HttpMethod.DELETE, null, Void.class);
                 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         }
 
@@ -114,7 +114,7 @@ public class LibraryControllerTest {
         @DirtiesContext
         void shouldNotDeleteAMemberThatDoesNotExist() {
                 ResponseEntity<Void> deleteResponse = restTemplate
-                                .exchange("/library/member/6", HttpMethod.DELETE, null, Void.class);
+                                .exchange("/library/member/9999", HttpMethod.DELETE, null, Void.class);
                 assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         }
 
@@ -126,7 +126,7 @@ public class LibraryControllerTest {
         @DirtiesContext
         void shouldDeleteAnExistingMemberByEmailAddress() {
                 ResponseEntity<Void> response = restTemplate
-                                .exchange("/library/member/user.three@st-andrews.ac.uk", HttpMethod.DELETE, null,
+                                .exchange("/library/member/user.six@st-andrews.ac.uk", HttpMethod.DELETE, null,
                                                 Void.class);
                 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         }
@@ -155,12 +155,12 @@ public class LibraryControllerTest {
 
                 DocumentContext documentContext = JsonPath.parse(response.getBody());
                 int memberCount = documentContext.read("$.length()");
-                assertThat(memberCount).isEqualTo(5);
+                assertThat(memberCount).isEqualTo(6);
 
                 JSONArray ids = documentContext.read("$..emailAddress");
                 assertThat(ids).containsExactlyInAnyOrder("user.one@st-andrews.ac.uk", "user.two@st-andrews.ac.uk",
                                 "user.three@st-andrews.ac.uk", "user.four@st-andrews.ac.uk",
-                                "user.five@st-andrews.ac.uk");
+                                "user.five@st-andrews.ac.uk","user.six@st-andrews.ac.uk");
         }
 
         /**
@@ -223,5 +223,17 @@ public class LibraryControllerTest {
                 DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
                 String email = documentContext.read("@.emailAddress");
                 assertThat(email).isEqualTo("user.two@st-andrews.ac.uk");
+        }
+
+        /**
+         * Test case to test the end-point for deleting a member using member's id.
+         * The member should not be deleted because the member has one or more books checked out.
+         */
+        @Test
+        @DirtiesContext
+        void shouldNotDeleteAnExistingMemberThatHasOneOrMoreBookCheckedOut() {
+                ResponseEntity<Void> response = restTemplate
+                        .exchange("/library/member/5", HttpMethod.DELETE, null, Void.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         }
 }

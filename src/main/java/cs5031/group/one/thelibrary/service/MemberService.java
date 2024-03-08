@@ -32,7 +32,7 @@ public interface MemberService {
      *
      * @param id This is the input parameter
      */
-    void deleteMemberById(Long id);
+    boolean deleteMemberById(Long id);
 
     /**
      * This is the service interface method to delete member using member's email
@@ -40,7 +40,7 @@ public interface MemberService {
      *
      * @param emailAddress This is the input parameter
      */
-    void deleteMemberByEmailAddress(String emailAddress);
+    boolean deleteMemberByEmailAddress(String emailAddress);
 
     /**
      * This is the service interface method to check existence of a member using

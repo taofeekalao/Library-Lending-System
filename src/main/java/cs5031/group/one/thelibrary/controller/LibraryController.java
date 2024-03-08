@@ -237,8 +237,11 @@ public class LibraryController {
     protected ResponseEntity<Void> deleteMemberById(@PathVariable String requestId) {
         if (requestId.contains("@")) {
             if (memberService.existsMemberByEmailAddress(requestId)) {
-                memberService.deleteMemberByEmailAddress(requestId);
-                return ResponseEntity.noContent().build();
+                if (memberService.deleteMemberByEmailAddress(requestId)) {
+                    return ResponseEntity.noContent().build();
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
             }
         }
 
@@ -246,8 +249,11 @@ public class LibraryController {
         try {
             id = Long.parseLong(requestId);
             if (memberService.existsMemberById(id)) {
-                memberService.deleteMemberById(id);
-                return ResponseEntity.noContent().build();
+                if (memberService.deleteMemberById(id)) {
+                    return ResponseEntity.noContent().build();
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
             }
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
