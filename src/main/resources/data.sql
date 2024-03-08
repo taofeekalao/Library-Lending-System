@@ -8,6 +8,8 @@ INSERT INTO member (member_name, address, email_address)
 VALUES ('abd hakeem', 'Powell, KY169LY', 'user.four@st-andrews.ac.uk');
 INSERT INTO member (member_name, address, email_address)
 VALUES ('amir khan', 'David Russell Apartment, KY169LY', 'user.five@st-andrews.ac.uk');
+INSERT INTO member (member_name, address, email_address)
+VALUES ('samanta mccarthy', 'Gregory Place Apartment, KY169LY', 'user.six@st-andrews.ac.uk');
 
 INSERT INTO book (isbn, title, author, quantity_in_library, quantity_checked_out)
 VALUES ('9780743273565', 'The Great Gatsby', 'F. Scott Fitzgerald', 7, 2);
@@ -34,6 +36,8 @@ INSERT INTO checked_out_item (member, book, checkout_date, due_date, return_stat
 VALUES (00001, 9780241950425, '2023-05-05', '2023-05-20', false);
 INSERT INTO checked_out_item (member, book, checkout_date, due_date, return_status)
 VALUES (00002, 9780743273565, '2023-05-05', '2023-05-20', false);
+INSERT INTO checked_out_item (member, book, checkout_date, due_date, return_status)
+VALUES (00006, 9780743273565, '2023-05-05', '2023-05-20', true);
 
 INSERT INTO library (name)
 VALUES ('the main library');
