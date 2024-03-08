@@ -26,7 +26,7 @@ public class LibraryMVCTests {
         String checkoutRequest = "{" +
                 "\"checkedOutBookItemId\": null," +
                 "\"member\": 1," +
-                "\"book\": \"9780743273565\"," +
+                "\"book\": \"9780061120084\"," +
                 "\"checkoutDate\": \"2022-03-07\"," +
                 "\"dueDate\": \"2022-04-07\"," +
                 "\"returnStatus\": false," +

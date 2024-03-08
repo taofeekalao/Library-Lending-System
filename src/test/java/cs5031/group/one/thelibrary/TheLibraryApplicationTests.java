@@ -46,8 +46,8 @@ class TheLibraryApplicationTests {
     @Test
     public void testReturnBookSuccess() {
         Long memberId = 00001L;
-        libraryModel.borrowBook("9780743273565", memberId);
-        boolean success = libraryModel.returnBook("9780743273565", memberId);
+        libraryModel.borrowBook("9780061120084", memberId);
+        boolean success = libraryModel.returnBook("9780061120084", memberId);
 
         assertTrue(success);
     }
@@ -65,14 +65,14 @@ class TheLibraryApplicationTests {
     // this should pass
     @Test
     public void testBorrowCheckedOutItemSuccess() {
-        Long memberId = 00001L;
-        boolean success = libraryModel.borrowBook("9780743273565", memberId);
+        Long memberId = 00003L;
+        boolean success = libraryModel.borrowBook("9780061120084", memberId);
 
         assertTrue(success);
 
         // Verify that a CheckedOutItem record was created
         Optional<CheckedOutItem> checkedOutItem = checkedOutItemRepository
-                .findByBookAndMemberAndReturnStatusIsFalse("9780743273565", memberId);
+                .findByBookAndMemberAndReturnStatusIsFalse("9780061120084", memberId);
         assertTrue(checkedOutItem.isPresent());
     }
 
@@ -95,14 +95,14 @@ class TheLibraryApplicationTests {
     // this should pass
     @Test
     public void testReturnCheckedOutItemSuccess() {
-        Long memberId = 00001L;
-        boolean success = libraryModel.returnBook("9780743273565", memberId);
+        Long memberId = 00004L;
+        boolean success = libraryModel.returnBook("9780590353427", memberId);
 
         assertTrue(success);
 
         // Verify that a CheckedOutItem record was updated
         Optional<CheckedOutItem> checkedOutItem = checkedOutItemRepository
-                .findByBookAndMemberAndReturnStatusIsTrue("9780743273565", memberId);
+                .findByBookAndMemberAndReturnStatusIsTrue("9780590353427", memberId);
         assertTrue(checkedOutItem.isPresent());
     }
 
