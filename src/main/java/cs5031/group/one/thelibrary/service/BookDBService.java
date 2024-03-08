@@ -17,13 +17,17 @@ public class BookDBService {
     // load repository
     private final BookRepository bookRepository;
 
+    /**
+     * This is the constructor for the repository class.
+     * @param bookRepository The book repository parameter
+     */
     @Autowired
     public BookDBService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     /**
-     * A list of books
+     * A list of books.
      *
      * @return a list of books
      */
@@ -68,8 +72,8 @@ public class BookDBService {
     /**
      * This is the method to add a new book item to the library system.
      *
-     * @param newBook
-     * @return
+     * @param newBook The is the new book to be added to the library
+     * @return The returns the book item added to the library
      */
     @Transactional
     public Book addBook(Book newBook) {

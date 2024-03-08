@@ -6,8 +6,8 @@ import cs5031.group.one.thelibrary.service.CheckedOutItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/*
- * Model class for the CS5031 P2 library assisgnment
+/**
+ * Model class for the CS5031 P2 library assignment
  */
 @Component
 public class LibraryModel {

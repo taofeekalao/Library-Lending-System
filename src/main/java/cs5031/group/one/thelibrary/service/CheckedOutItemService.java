@@ -118,8 +118,9 @@ public class CheckedOutItemService {
     /**
      * This is the method that returns the list of items checked out by a member.
      *
-     * @param memberId     The is the member's id of the member as a parameter.
+     * @param memberId This is the id of the member as a parameter.
      * @param returnStatus The method returns a list of checked out items by a member.
+     * @return The return the list of checked out items.
      */
     @Transactional
     public List<CheckedOutItem> getCheckedOutItemsByMember(Long memberId, boolean returnStatus) {

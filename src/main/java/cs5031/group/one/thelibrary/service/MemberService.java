@@ -31,6 +31,7 @@ public interface MemberService {
      * This is the service interface method to delete member using member's id.
      *
      * @param id This is the input parameter
+     * @return This returns a true or false
      */
     boolean deleteMemberById(Long id);
 
@@ -39,6 +40,7 @@ public interface MemberService {
      * address.
      *
      * @param emailAddress This is the input parameter
+     * @return This returns a true or false
      */
     boolean deleteMemberByEmailAddress(String emailAddress);
 
