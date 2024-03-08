@@ -57,6 +57,7 @@ public class MemberServiceImpl implements MemberService {
      * This is the service implementation method to delete member using member's id.
      *
      * @param id This is the input parameter
+     * @return This returns a boolean value
      */
     @SuppressWarnings("null")
     @Override
@@ -77,6 +78,7 @@ public class MemberServiceImpl implements MemberService {
      * email address.
      *
      * @param emailAddress This is the input parameter
+     * @return This returns a boolean value
      */
     @SuppressWarnings("null")
     @Override
