@@ -17,13 +17,21 @@ const BorrowBook: React.FC = () => {
         setMemberId(e.target.value);
     }
     const borrowBook = () => {
-        fetch('http://localhost:8080/library/borrowed?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
+        fetch('http://localhost:8080/library/borrowed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({member: memberId, book: bookId}),
+        }).then(response => {
             if (response.ok) {
                 toast.success('Book borrowed successfully')
             } else {
                 toast.error('Failed to borrow book')
             }
-        })
+        }).catch(() => {
+            toast.error('Failed to borrow book');
+        });
         setBookId('');
         setMemberId('');
     }
@@ -71,13 +79,21 @@ const ReturnBook: React.FC = () => {
         setMemberId(e.target.value);
     }
     const returnBook = () => {
-        fetch('http://localhost:8080/library/returned?member_Id=' + memberId + '&isbn=' + bookId).then(response => {
+        fetch('http://localhost:8080/library/returned', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({member: memberId, book: bookId}),
+        }).then(response => {
             if (response.ok) {
                 toast.success('Book returned successfully')
             } else {
                 toast.error('Failed to return book')
             }
-        })
+        }).catch(() => {
+            toast.error('Failed to return book');
+        });
 
         setBookId('');
         setMemberId('');

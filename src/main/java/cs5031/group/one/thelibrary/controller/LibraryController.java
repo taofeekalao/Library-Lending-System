@@ -256,17 +256,7 @@ public class LibraryController {
         return ResponseEntity.notFound().build();
     }
 
-    /**
-     * This is the method that gets all the members in the system and returns a list
-     * of members.
-     *
-     * @return This returns a list of members.
-     */
-    @GetMapping("/library/member/")
-    private ResponseEntity<List<Member>> findAll() {
-        List<Member> memberList = memberService.listAllMembers();
-        return ResponseEntity.ok(memberList);
-    }
+
 
     /**
      * This is the method to add a book item to the library system.
@@ -290,6 +280,18 @@ public class LibraryController {
 
         // If the book was successfully added, return an OK response
         return ResponseEntity.ok("Book added successfully with ID: " + savedBook.bookId());
+    }
+
+    /**
+     * This is the method that gets all the members in the system and returns a list
+     * of members.
+     *
+     * @return This returns a list of members.
+     */
+    @GetMapping("/library/member/")
+    private ResponseEntity<List<Member>> findAll() {
+        List<Member> memberList = memberService.listAllMembers();
+        return ResponseEntity.ok(memberList);
     }
 
     /**
