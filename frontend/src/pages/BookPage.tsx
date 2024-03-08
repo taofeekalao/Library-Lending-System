@@ -123,14 +123,18 @@ const BookTable: React.FC = () => {
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Title</th>
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Author</th>
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ISBN</th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantity
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total
+                    Quantity
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     In Library
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider2">Quantity
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider2">
                     Checked Out
                 </th>
 
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Available </th>
+
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Available</th>
             </tr>
             </thead>
             <tbody>
@@ -139,10 +143,11 @@ const BookTable: React.FC = () => {
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.title}</td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.author}</td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.isbn}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 text-sm"> {book.quantityInLibrary + book.quantityCheckedOut} </td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.quantityInLibrary}</td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">{book.quantityCheckedOut}</td>
                     <td className="px-5 py-5 border-b border-gray-200 text-sm">
-                        {book.quantityInLibrary - book.quantityCheckedOut >= 0 ? (
+                        {book.quantityInLibrary > 0 ? (
                             <span
                                 className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-600 bg-green-200 rounded-full">True</span>
                         ) : (

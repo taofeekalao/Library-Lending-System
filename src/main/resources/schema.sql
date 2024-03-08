@@ -39,7 +39,7 @@ CREATE TABLE checked_out_item
 (
     checked_out_book_item_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     member                   INT                            NOT NULL,
-    book                     LONG                           NOT NULL,
+    book                     VARCHAR(20)                    NOT NULL,
     checkout_date            DATE                           NOT NULL,
     due_date                 DATE                           NOT NULL,
     return_status            BOOLEAN DEFAULT FALSE          NOT NULL,
